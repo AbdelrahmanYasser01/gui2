@@ -15,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 
@@ -60,12 +61,13 @@ public class HelloApplication extends Application {
         text2.setFill(Color.WHITE);
 
         Image image = new Image("https://static.nike.com/a/images/f_auto/6c735bd0-26db-460d-a3d7-2848211e7c77/image.jpeg"); // Assuming the image file is in the project directory
-        // Create an ImageView to display the image
         ImageView imageView = new ImageView(image);
 
-        // Create layout
+        Rectangle background = new Rectangle(400, 200, Color.rgb(0, 0, 0, 0.5));
+        background.setArcWidth(20);
+        background.setArcHeight(20);
         StackPane layout = new StackPane();
-        layout.getChildren().addAll(imageView,pane);
+        layout.getChildren().addAll(imageView,background,pane);
         StackPane.setAlignment(pane, Pos.TOP_LEFT);
         Scene scene = new Scene(layout);
         stage.setScene(scene);
