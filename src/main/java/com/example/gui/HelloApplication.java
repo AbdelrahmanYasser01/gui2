@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -26,7 +27,7 @@ public class HelloApplication extends Application {
         TextField usertext=new TextField();
         PasswordField passtext = new PasswordField();
 
-        Button bt1 = new Button("sign in");
+        Button bt1 = new Button("SIGN IN");
         Button bt2 = new Button("cancel ");
         Button bt = new Button("sign up");
         GridPane pane = new GridPane();
@@ -41,19 +42,24 @@ public class HelloApplication extends Application {
         pane.add(text2,0,1);
         pane.add(usertext,1,0);
         pane.add(passtext,1,1);
-        pane.add(bt1,0,2);
-        pane.add(bt2,1,2);
-        pane.add(bt,2,2);
+        pane.add(bt1,0,3);
+        pane.add(bt2,1,3);
+        pane.add(bt,1,4);
 
-        bt1.setStyle("-fx-background-color:blue ; -fx-text-fill:white");
-        bt2.setStyle("-fx-background-color:red ; -fx-text-fill:white");
-        bt.setStyle("-fx-background-color:green ; -fx-text-fill:white");
+        bt1.setStyle("-fx-background-color:black ; -fx-text-fill:white ; -fx-background-radius: 30 ");
+        bt1.setPrefWidth(100);
+        bt2.setStyle("-fx-background-color:grey ; -fx-text-fill:white ; -fx-background-radius: 30");
+        bt2.setPrefWidth(100);
+        bt.setStyle("-fx-background-color:grey ; -fx-text-fill:white ; -fx-background-radius: 30");
+        bt.setPrefWidth(100);
 
         text1.setStyle("-fx-font:normal bold 20px 'Arial' ");
+        text1.setFill(Color.WHITE);
+
         text2.setStyle("-fx-font:normal bold 20px 'Arial' ");
+        text2.setFill(Color.WHITE);
 
-        Image image = new Image("/Users/laylamuhammed/IdeaProjects/gui2/PHOTO-2023-12-25-20-06-16.jpg"); // Assuming the image file is in the project directory
-
+        Image image = new Image("https://static.nike.com/a/images/f_auto/6c735bd0-26db-460d-a3d7-2848211e7c77/image.jpeg"); // Assuming the image file is in the project directory
         // Create an ImageView to display the image
         ImageView imageView = new ImageView(image);
 
