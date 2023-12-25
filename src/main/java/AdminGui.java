@@ -2,7 +2,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class AdminGui extends Application {
-    public Admin admin = new Admin();
+   // public Admin admin = new Admin();
 
 
     public static void main(String[] args) {
@@ -12,7 +12,7 @@ public class AdminGui extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        admin.getid();
+        //admin.getid();
 
     }
 }
