@@ -1,8 +1,10 @@
+package com.example.gui;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Customer extends User{
+public class Customer extends User {
     //comment
     private
     String CustomerName;
@@ -202,5 +204,8 @@ public class Customer extends User{
         int min = 1000;
         int max = 9999;
         return (int) (Math.random() * (max - min + 1) + min);
+    }
+    public void launchgui(){
+        CustomerGui.launch(CustomerGui.class);
     }
 }

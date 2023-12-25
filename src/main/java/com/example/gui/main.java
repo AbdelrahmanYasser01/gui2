@@ -1,3 +1,5 @@
+package com.example.gui;
+
 import static javafx.application.Application.launch;
 
 public class main {

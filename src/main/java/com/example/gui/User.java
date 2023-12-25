@@ -1,3 +1,5 @@
+package com.example.gui;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -45,18 +47,18 @@ import java.util.Scanner;
         //methods
         void Login(int email , String password , UserType userType  ) throws IOException {
        /* switch (userType) {
-            case Admin -> {
+            case com.example.gui.Admin -> {
 
 
                 String filePath = "src/files/admin.txt";
-                database = new Database(filePath);
+                database = new com.example.gui.Database(filePath);
                 database.start_read();
                 ArrayList adminData = database.read("admin");
                 database.close_read();
                 boolean adminFound = false;
                 for (Object AdminData : adminData) {
                     if (AdminData != null) {
-                        Admin admin = Admin.parse(AdminData.toString());
+                        com.example.gui.Admin admin = com.example.gui.Admin.parse(AdminData.toString());
                         if (admin != null && admin.getEmail().equals(signInEmail) && admin.getPassword().equals(signInPassword)) {
                             System.out.println("Sign In successful!");
                             adminFound = true;
@@ -71,7 +73,7 @@ import java.util.Scanner;
                 }
 
             }
-            case Customer -> {
+            case com.example.gui.Customer -> {
                 System.out.println("Signing In "); // Sign In logic
                 System.out.print("Enter email: ");
                 String signInEmail = scanner.nextLine();
@@ -80,14 +82,14 @@ import java.util.Scanner;
 
                 //Search for the customer in the customer text file
                 String filePath = "src/files/customer.txt";
-                database = new Database(filePath);
+                database = new com.example.gui.Database(filePath);
                 database.start_read();
                 ArrayList customersData = database.read("customer");
 
                 database.close_read();
                 boolean customerFound = false;
                 for (Object customerData : customersData) {
-                    Customer customer = Customer.parse( customerData.toString());
+                    com.example.gui.Customer customer = com.example.gui.Customer.parse( customerData.toString());
                     if (customer != null && customer.getEmail().equals(signInEmail) && customer.getPassword().equals(signInPassword)) {
                         System.out.println("Sign In successful!");
                         customerFound = true;
@@ -101,7 +103,7 @@ import java.util.Scanner;
                 }
 
             }
-            case Seller -> {
+            case com.example.gui.Seller -> {
                 System.out.println("Signing In "); // Sign In logic
                 System.out.print("Enter email: ");
                 String signInEmail = scanner.nextLine();
@@ -109,14 +111,14 @@ import java.util.Scanner;
                 String signInPassword = scanner.nextLine();
 
                 String filePath = "src/files/seller.txt";
-                database = new Database(filePath);
+                database = new com.example.gui.Database(filePath);
                 database.start_read();
                 ArrayList sellerData = database.read("seller");
                 database.close_read();
                 boolean sellerFound = false;
                 for (Object SellerData : sellerData) {
                     if (SellerData != null) {
-                        Seller seller = Seller.parse(SellerData.toString());
+                        com.example.gui.Seller seller = com.example.gui.Seller.parse(SellerData.toString());
                         if (seller != null && seller.getEmail().equals(signInEmail) && seller.getPassword().equals(signInPassword)) {
                             System.out.println("Sign In successful!");
                             sellerFound = true;

@@ -1,8 +1,10 @@
+package com.example.gui;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class AdminGui extends Application {
-   // public Admin admin = new Admin();
+   // public com.example.gui.Admin admin = new com.example.gui.Admin();
 
 
     public static void main(String[] args) {

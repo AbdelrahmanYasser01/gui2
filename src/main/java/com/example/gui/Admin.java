@@ -1,3 +1,5 @@
+package com.example.gui;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -5,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-public class Admin extends User{
+public class Admin extends User {
     private int Adminid;
     private String adminName;
     private String email;
@@ -66,7 +68,7 @@ public class Admin extends User{
         System.out.println("Please Enter product price:");
         double price = scanner.nextDouble();
 
-        System.out.println("Please Enter product Seller:");
+        System.out.println("Please Enter product com.example.gui.Seller:");
         String color = scanner.next();
 
         System.out.println("Please Enter product quantity:");
@@ -92,7 +94,7 @@ public class Admin extends User{
         newProduct.setQuantity(quantity);
 
 
-        System.out.println("Thank You!! Product added successfully.");
+        System.out.println("Thank You!! com.example.gui.Product added successfully.");
 
     }
     //________________________________________________________________________________
@@ -110,9 +112,9 @@ public class Admin extends User{
                 users.remove(User);
                 break;
             }
-            System.out.println("Thank You!! Product removed successfully.");
+            System.out.println("Thank You!! com.example.gui.Product removed successfully.");
         }
-        System.out.println("Sorry! User not found.");
+        System.out.println("Sorry! com.example.gui.User not found.");
 
     }
 
@@ -132,9 +134,9 @@ public class Admin extends User{
         }
 
         if (removed) {
-            System.out.println("Thank You!! Product removed successfully.");
+            System.out.println("Thank You!! com.example.gui.Product removed successfully.");
         } else {
-            System.out.println("Sorry! Product not found.");
+            System.out.println("Sorry! com.example.gui.Product not found.");
         }
     }
 
@@ -167,9 +169,9 @@ public class Admin extends User{
 
         }
         if(foundUser == true)
-            System.out.println("User succesfully Edited!");
+            System.out.println("com.example.gui.User succesfully Edited!");
         else
-            System.out.println("User not found!");
+            System.out.println("com.example.gui.User not found!");
     }
 
 
@@ -257,14 +259,14 @@ public class Admin extends User{
         }
 
         if (found) {
-            System.out.println("Thank You!! Product edited successfully.");
+            System.out.println("Thank You!! com.example.gui.Product edited successfully.");
         } else {
-            System.out.println("Sorry! Product not found.");
+            System.out.println("Sorry! com.example.gui.Product not found.");
         }
     }
 
     //____________________________________________________________________________
-    //____________________Listing User and Products_______________________________
+    //____________________Listing com.example.gui.User and Products_______________________________
     //____________________________________________________________________________
 
     public void listUser(){

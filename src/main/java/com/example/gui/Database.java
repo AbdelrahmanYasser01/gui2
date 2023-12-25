@@ -1,3 +1,5 @@
+package com.example.gui;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,10 +12,10 @@ public class Database {
     static Product[] products;
     /*  database(){
 
-          Product[] products = {
-                  new Product(1001, "T-Shirt", 19.99),
-                  new Product(1002, "Jeans", 49.99),
-                  new Product(1003, "Sneakers", 39.99)
+          com.example.gui.Product[] products = {
+                  new com.example.gui.Product(1001, "T-Shirt", 19.99),
+                  new com.example.gui.Product(1002, "Jeans", 49.99),
+                  new com.example.gui.Product(1003, "Sneakers", 39.99)
                   // Add more products as needed
           };
       }
@@ -72,4 +74,5 @@ public class Database {
     public void close_read(){
         this.read.close();
     }
-}//comment
+}
+// ma3mlnash interface bec. there is no class that extends database class

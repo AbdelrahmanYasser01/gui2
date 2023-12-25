@@ -1,3 +1,5 @@
+package com.example.gui;
+
 import java.util.Date;
 
 public class Product {
