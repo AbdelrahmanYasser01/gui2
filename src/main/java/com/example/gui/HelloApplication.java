@@ -114,7 +114,7 @@ public class HelloApplication extends Application {
         StackPane layout = new StackPane();
         layout.getChildren().addAll(imageView,background,pane);
         StackPane.setAlignment(pane, Pos.TOP_LEFT);
-        //FlowPane image4 = new FlowPane(layout);
+
         layout.setMaxWidth(Region.USE_PREF_SIZE);
         layout.setMaxHeight(Region.USE_PREF_SIZE);
         Scene scene = new Scene(layout);
