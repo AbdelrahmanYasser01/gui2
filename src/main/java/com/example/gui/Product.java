@@ -11,6 +11,7 @@ public class Product {
     private Date StartDate = new Date();
     private Date EndDate = new Date();
 
+
     public Product(int productID, String productName,double price){
         this.productID = productID;
         this.productName = productName;

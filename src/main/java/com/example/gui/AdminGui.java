@@ -35,8 +35,8 @@ public class AdminGui extends Application {
         Image image = new Image("https://static.nike.com/a/images/f_auto/6c735bd0-26db-460d-a3d7-2848211e7c77/image.jpeg"); // Assuming the image file is in the project directory
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
-        imageView.setFitWidth(primaryStage.getWidth());
-        imageView.setFitHeight(primaryStage.getHeight());
+        //imageView.setFitWidth(primaryStage.getWidth());
+        //imageView.setFitHeight(primaryStage.getHeight());
 
         Rectangle adminbackground = new Rectangle(400, 200, Color.rgb(0, 0, 0, 0.5));
         adminbackground.setArcWidth(20);
@@ -46,10 +46,10 @@ public class AdminGui extends Application {
         layout.getChildren().addAll(imageView,adminbackground,adminmenu);
 
 
-        layout.setMinSize(400,200);
+        /*layout.setMinSize(400,200);
         layout.setPadding(new Insets(10,10,10,10));
         layout.setMaxWidth(Region.USE_PREF_SIZE);
-        layout.setMaxHeight(Region.USE_PREF_SIZE);
+        layout.setMaxHeight(Region.USE_PREF_SIZE);*/
 
 
         Scene scene = new Scene(layout);

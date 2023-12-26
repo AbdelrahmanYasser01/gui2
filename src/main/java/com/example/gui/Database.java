@@ -8,71 +8,62 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Database {
     static Product[] products;
-    /*  database(){
 
-          com.example.gui.Product[] products = {
-                  new com.example.gui.Product(1001, "T-Shirt", 19.99),
-                  new com.example.gui.Product(1002, "Jeans", 49.99),
-                  new com.example.gui.Product(1003, "Sneakers", 39.99)
-                  // Add more products as needed
-          };
-      }
-  */
     private String file_path;
-    private FileWriter write;
-    private PrintWriter print_line;
-    private Scanner read;
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
     private File file;
+
     public Database(String file_path) throws IOException {
         this.file_path = file_path;
-
     }
 
-    public void start_write() throws IOException{
-        this.write = new FileWriter(file_path, true);
-        this.print_line = new PrintWriter(this.write);
+    public void start_write() throws IOException {
+        this.objectOutputStream = new ObjectOutputStream(new FileOutputStream(file_path, true));
     }
 
-
-    public void insert(String data) throws IOException{
-        this.print_line.println(data);
+    public void insert(Object data) throws IOException {
+        this.objectOutputStream.writeObject(data);
     }
 
-    public void start_read() throws IOException{
-        this.file = new File(this.file_path);
-        this.read = new Scanner(this.file);
-
+    public void start_read() throws IOException {
+        this.objectInputStream = new ObjectInputStream(new FileInputStream(file_path));
     }
 
-    public ArrayList read(String type) throws IOException{
-        ArrayList result = new ArrayList();
-        while(this.read.hasNext()){
-            String data = this.read.next();
-            Object parsed_data = null;
-            if(Objects.equals(type, "product")){
-                parsed_data = Product.parse(data);
+    public ArrayList<Object> read(String type) throws IOException, ClassNotFoundException {
+        ArrayList<Object> result = new ArrayList<>();
+        try {
+            while (true) {
+                Object data = this.objectInputStream.readObject();
+
+                if (Objects.equals(type, "product") && data instanceof Product) {
+                    result.add(data);
+                } else if (Objects.equals(type, "customer") && data instanceof Customer) {
+                    // Add logic for customer
+                    result.add(data);
+                } else if (Objects.equals(type, "seller") && data instanceof Seller) {
+                    // Add logic for seller
+                    result.add(data);
+                }
             }
-            else if(Objects.equals(type, "customer")){
-                // do something
-                parsed_data = Customer.parse(data);
-            }
-
-            else if(Objects.equals(type, "seller")) {
-                parsed_data = Seller.parse(data);
-            }
-            result.add(parsed_data);
+        } catch (EOFException ignored) {
+            // End of file reached
         }
         return result;
     }
 
-    public void close_write(){
-        this.print_line.close();
+    public void close_write() throws IOException {
+        this.objectOutputStream.close();
     }
 
-    public void close_read(){
-        this.read.close();
+    public void close_read() throws IOException {
+        this.objectInputStream.close();
     }
 }
 // ma3mlnash interface bec. there is no class that extends database class
