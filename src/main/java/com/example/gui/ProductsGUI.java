@@ -36,21 +36,43 @@ public class ProductsGUI extends Application {
         search.setFill(Color.WHITE);
         searchBar.setPrefWidth(200); // Set the preferred width as needed
         searchBar.setPrefHeight(20);
-
         HBox searchBack = new HBox(search, searchBar);
-
-
         searchBack.setAlignment(Pos.CENTER);
         searchPane.getChildren().addAll(searchBackground, searchBack);
 
-        VBox right = new VBox(searchPane);
+
+        StackPane addPane = new StackPane();
+        Rectangle addBackground = new Rectangle(707, 255, Color.rgb(0, 0, 0, 0.5));
+        addBackground.setArcWidth(90);
+        addBackground.setArcHeight(90);
+        Text add = new Text("ADD PRODUCT NAME");
+        TextField addfield = new TextField("product");
+        addfield.setOpacity(0.2);
+        add.setStyle("-fx-font:normal  20px 'IMPACT' ");
+        add.setFill(Color.WHITE);
+        HBox addpart= new HBox(add,addfield);
+        addpart.setAlignment(Pos.CENTER);
+        Text addPRICE = new Text("ADD PRODUCT PRICE");
+        TextField pricefield = new TextField("price");
+        pricefield.setOpacity(0.2);
+        addPRICE.setStyle("-fx-font:normal  20px 'IMPACT' ");
+        addPRICE.setFill(Color.WHITE);
+        HBox addpart2= new HBox(addPRICE,pricefield);
+        addpart2.setAlignment(Pos.CENTER);
+        VBox addproduct = new VBox(15,addpart,addpart2);
+        addproduct.setAlignment(Pos.CENTER);
+        addPane.getChildren().addAll(addBackground,addproduct);
+
+
+        VBox right = new VBox(10,searchPane , addPane);
+
 
         Image image = new Image("https://static.nike.com/a/images/f_auto/6c735bd0-26db-460d-a3d7-2848211e7c77/image.jpeg"); // Assuming the image file is in the project directory
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(prodstage.getWidth());
         imageView.setFitHeight(prodstage.getHeight());
-
+        
         Rectangle background = new Rectangle(714, 700, Color.rgb(0, 0, 0, 0.5));
         background.setArcWidth(60);
         background.setArcHeight(60);
@@ -60,6 +82,12 @@ public class ProductsGUI extends Application {
 
         Scene scene = new Scene(pane);
         prodstage.setScene(scene);
+        prodstage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            imageView.setFitWidth((double) newVal);
+        });
+        prodstage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            imageView.setFitHeight((double) newVal);
+        });
         prodstage.show();
 
 
