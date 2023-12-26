@@ -56,10 +56,8 @@ public class HelloApplication extends Application {
         bt1.setOnAction(e ->{
             //admin.start(stage));
             String selectedRole = (String)cbx.getValue();
-            System.out.println("Selected role: " + selectedRole);
-
             if ("Admin".equals(selectedRole)) {
-                //chck
+                // search in file if pass and username
                 admin.start(stage);
             }
         });

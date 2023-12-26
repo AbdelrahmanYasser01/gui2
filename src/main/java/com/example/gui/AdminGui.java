@@ -11,7 +11,6 @@ public class AdminGui extends Application {
     //admin admin = new admin
     @Override
     public void start(Stage primaryStage)  {
-        //admin.getid();
         Text text1 = new Text("hello");
         StackPane layout = new StackPane(text1);
         layout.setMinSize(400,200);
