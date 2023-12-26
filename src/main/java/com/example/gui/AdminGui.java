@@ -18,6 +18,7 @@ public class AdminGui extends Application {
         layout.setPadding(new Insets(10,10,10,10));
         Scene scene = new Scene(layout);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Admin menu");
         primaryStage.show();
     }
     public static void main(String[] args) {
