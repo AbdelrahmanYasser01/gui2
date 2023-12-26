@@ -64,8 +64,27 @@ public class ProductsGUI extends Application {
         addPane.getChildren().addAll(addBackground,addproduct);
 
 
-        VBox right = new VBox(10,searchPane , addPane);
+        StackPane removePane = new StackPane();
+        Rectangle removeBackground = new Rectangle(707, 255, Color.rgb(0, 0, 0, 0.5));
+        removeBackground.setArcWidth(90);
+        removeBackground.setArcHeight(90);
+        Text rem = new Text("REMOVE PRODUCT :");
+        Text remove = new Text("PRODUCT NAME");
+        TextField remfield = new TextField("product");
+        remfield.setOpacity(0.2);
+        remove.setStyle("-fx-font:normal  20px 'IMPACT' ");
+        remove.setFill(Color.WHITE);
+        rem.setStyle("-fx-font:normal  20px 'IMPACT' ");
+        rem.setFill(Color.WHITE);
+        GridPane removingprod = new GridPane(10,10);
+        removingprod.add(rem,0,0);
+        removingprod.add(remove,0,2);
+        removingprod.add(remfield,1,2);
+        removingprod.setAlignment(Pos.CENTER);
+        removePane.getChildren().addAll(removeBackground,removingprod);
 
+        VBox right = new VBox(10,searchPane , addPane , removePane);
+        right.setAlignment(Pos.CENTER);
 
         Image image = new Image("https://static.nike.com/a/images/f_auto/6c735bd0-26db-460d-a3d7-2848211e7c77/image.jpeg"); // Assuming the image file is in the project directory
         ImageView imageView = new ImageView(image);
