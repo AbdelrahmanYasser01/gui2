@@ -1,8 +1,13 @@
 package com.example.gui;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Product {
+public class Product implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int productID;
     private String productName;
     private double price;
@@ -76,6 +81,15 @@ public class Product {
     @Override
     public String toString(){
         return this.productID+","+this.productName + ","+ this.price;
+    }
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        // Add custom serialization logic if needed
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        // Add custom deserialization logic if needed
     }
 
 //comment

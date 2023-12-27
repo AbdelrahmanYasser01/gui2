@@ -4,15 +4,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Database {
+public class Database  {
     static Product[] products;
 
     private String file_path;
@@ -25,7 +23,7 @@ public class Database {
     }
 
     public void start_write() throws IOException {
-        this.objectOutputStream = new ObjectOutputStream(new FileOutputStream(file_path, true));
+        this.objectOutputStream = new ObjectOutputStream(new FileOutputStream(file_path));
     }
 
     public void insert(Object data) throws IOException {
@@ -36,28 +34,18 @@ public class Database {
         this.objectInputStream = new ObjectInputStream(new FileInputStream(file_path));
     }
 
-    public ArrayList<Object> read(String type) throws IOException, ClassNotFoundException {
-        ArrayList<Object> result = new ArrayList<>();
+    public List<Object> read() throws IOException, ClassNotFoundException {
+        List<Object> result = new ArrayList<>();
         try {
             while (true) {
                 Object data = this.objectInputStream.readObject();
-
-                if (Objects.equals(type, "product") && data instanceof Product) {
-                    result.add(data);
-                } else if (Objects.equals(type, "customer") && data instanceof Customer) {
-                    // Add logic for customer
-                    result.add(data);
-                } else if (Objects.equals(type, "seller") && data instanceof Seller) {
-                    // Add logic for seller
-                    result.add(data);
-                }
+                result.add(data);
             }
         } catch (EOFException ignored) {
             // End of file reached
         }
         return result;
     }
-
     public void close_write() throws IOException {
         this.objectOutputStream.close();
     }
@@ -65,5 +53,20 @@ public class Database {
     public void close_read() throws IOException {
         this.objectInputStream.close();
     }
+    public void displayContent() {
+        try {
+            start_read();
+
+            List<Object> result = read();
+            for (Object data : result) {
+                System.out.println(data);
+            }
+
+            close_read();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 // ma3mlnash interface bec. there is no class that extends database class

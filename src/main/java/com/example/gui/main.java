@@ -1,5 +1,7 @@
 package com.example.gui;
 
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner ;
@@ -7,7 +9,10 @@ import static javafx.application.Application.launch;
 
 public class main {
 
-    public static void main(String[] args)  {
+  public static void main(String[] args) throws IOException {
+//        Stage main = new Stage();
+//        HelloApplication h = new HelloApplication();
+//       h.start(main);
         try {
             String productFilepath = "products.dat";
             Database productdatabase = new Database(productFilepath);
@@ -19,10 +24,9 @@ public class main {
             ArrayList<Product> prodlist = new ArrayList<>();
             prodlist.add(p1);
             prodlist.add(p2);
-
-
             productdatabase.insert(prodlist);
             productdatabase.close_write();
+            productdatabase.displayContent();
         }catch (IOException e) {
             e.printStackTrace();
         }
