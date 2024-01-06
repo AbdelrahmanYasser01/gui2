@@ -29,8 +29,8 @@ import java.util.ArrayList;
 public class HelloApplication extends Application {
     public static void main(String[] args) {
 
-    launch();
-}
+        launch();
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -52,15 +52,21 @@ public class HelloApplication extends Application {
 
         HelloApplication h1 = new HelloApplication();
         Button bt1 = new Button("sign in");
-        //check if usertext and passtext and cbx matches admin
+
         ArrayList<Admin> adminslist = new ArrayList<>();
+        ArrayList<Customer> customerlist = new ArrayList<>();
+        ArrayList<Seller> Sellerlist = new ArrayList<>();
         bt1.setOnAction(e ->{
             //admin.start(stage));
             String selectedRole = (String)cbx.getValue();
             String username = usertext.getText();
             String pass = passtext.getText();
             h1.fillarraylist(adminslist);
+            h1.fillarraylist2(customerlist);
+            h1.fillarraylist3(Sellerlist);
             System.out.println(adminslist.toString());
+            System.out.println(customerlist.toString());
+            System.out.println(Sellerlist.toString());
             if ("Admin".equals(selectedRole)) {
                 for (Admin admin6 : adminslist) {
                     if (username.equals(admin6.getAdminName()) ) {
@@ -69,6 +75,24 @@ public class HelloApplication extends Application {
                         admin.start(stage);
                     } else {
                         System.out.println("wrong ");
+                    }
+                }
+            }
+            else if("Customer".equals(selectedRole)){
+                for (Customer admin6 : customerlist) {
+                    if (username.equals(admin6.getCustomerName()) ) {
+                        // search in file if pass and username
+                        System.out.println("yes");
+
+                    }
+                }
+            }
+            else if ("Seller".equals(selectedRole)){
+                for (Seller admin6 : Sellerlist) {
+                    if (username.equals(admin6.getSellerName()) ) {
+                        // search in file if pass and username
+                        System.out.println("yes sir");
+
                     }
                 }
             }
@@ -173,6 +197,43 @@ public class HelloApplication extends Application {
             e.printStackTrace();
         }
     }
+    public void fillarraylist2(ArrayList<Customer> list) {
+        String fileName = "customer.dat";
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File not found: " + fileName);
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            while (true) {
+                try {
+                    list.addAll((ArrayList<Customer>) ois.readObject());
+                } catch (EOFException e) {
+                    break; // End of file reached, exit the loop
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void fillarraylist3(ArrayList<Seller> list) {
+        String fileName = "seller.dat";
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File not found: " + fileName);
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            while (true) {
+                try {
+                    list.addAll((ArrayList<Seller>) ois.readObject());
+                } catch (EOFException e) {
+                    break; // End of file reached, exit the loop
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
-
