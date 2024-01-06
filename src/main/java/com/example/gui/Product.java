@@ -12,6 +12,7 @@ public class Product implements Serializable {
     private String productName;
     private double price;
     private int quantity;
+    public String path;
     private Seller seller;
     private Date StartDate = new Date();
     private Date EndDate = new Date();
