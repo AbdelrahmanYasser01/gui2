@@ -1,10 +1,11 @@
 package com.example.gui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Seller extends User{
+public class Seller extends User implements Serializable {
     private
     String sellerName;
     int sellerid;
@@ -13,7 +14,10 @@ public class Seller extends User{
     Date EndDate = new Date();
     List<Product> products;
 
-    public Seller(int id ,String sellerName, String email, String password, UserType user) {
+    public Seller() {
+    }
+
+    public Seller(int id , String sellerName, String email, String password, UserType user) {
         super(id,password,user);
         this.sellerName = sellerName;
         this.email = email;

@@ -7,10 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -22,7 +19,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 
 // TODO: after he signed in got to menu for admin , customer , seller
 // todo : sign up page
@@ -33,6 +31,7 @@ public class HelloApplication extends Application {
 
     launch();
 }
+
     @Override
     public void start(Stage stage) throws IOException {
         AdminGui admin = new AdminGui();
@@ -51,14 +50,27 @@ public class HelloApplication extends Application {
 
         String sc = (String) cbx.getValue();
 
+        HelloApplication h1 = new HelloApplication();
         Button bt1 = new Button("sign in");
         //check if usertext and passtext and cbx matches admin
+        ArrayList<Admin> adminslist = new ArrayList<>();
         bt1.setOnAction(e ->{
             //admin.start(stage));
             String selectedRole = (String)cbx.getValue();
+            String username = usertext.getText();
+            String pass = passtext.getText();
+            h1.fillarraylist(adminslist);
+            System.out.println(adminslist.toString());
             if ("Admin".equals(selectedRole)) {
-                // search in file if pass and username
-                admin.start(stage);
+                for (Admin admin6 : adminslist) {
+                    if (username.equals(admin6.getAdminName()) ) {
+                        // search in file if pass and username
+                        System.out.println("yes");
+                        admin.start(stage);
+                    } else {
+                        System.out.println("wrong ");
+                    }
+                }
             }
         });
 
@@ -134,11 +146,33 @@ public class HelloApplication extends Application {
 
     }
 
+    public static Boolean searchPerson(ArrayList<Admin> admins, String name, String password) {
+        for (Admin person : admins) {
+            if (name.equals(person.getAdminName()) && password.equals(person.getPassword())) {
+                return true; // Found the person
+            }
+        }
+        return false; // Person not found
+    }
+    public void fillarraylist(ArrayList<Admin> list) {
+        String fileName = "admin.dat";
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File not found: " + fileName);
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            while (true) {
+                try {
+                    list.addAll((ArrayList<Admin>) ois.readObject());
+                } catch (EOFException e) {
+                    break; // End of file reached, exit the loop
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 
-//FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-  //  Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-       // stage.setTitle("Hello!");
-   //             stage.setScene(scene);
-// stage.show();

@@ -104,7 +104,6 @@ public class ProductsGUI extends Application implements Serializable  {
                 background.setArcWidth(60);
                 background.setArcHeight(60);
                 ArrayList<Product> alist = new ArrayList<>();
-                Product po1 = new Product(0001, "low dunks", 100.0);
                 //alist.add(po1);
                 ProductsGUI prod = new ProductsGUI();
                 prod.fillarraylist(alist);
@@ -112,7 +111,7 @@ public class ProductsGUI extends Application implements Serializable  {
                 ListView<Product> listview = new ListView<>(p);
                 StackPane stack = new StackPane();
                 //stack.getChildren().addAll(background,listview);
-                // listview.setStyle("-fx-control-inner-background: transparent;");
+                 listview.setStyle("-fx-control-inner-background: Black;");
                 HBox back = new HBox(10, listview, right);
 
                 FlowPane pane1 = new FlowPane();

@@ -1,10 +1,11 @@
 package com.example.gui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Customer extends User {
+public class Customer extends User implements Serializable {
     //comment
     private
     String CustomerName;
@@ -19,6 +20,9 @@ public class Customer extends User {
     //ArrayList<String> orders;
     Order[] order = new Order[numoforders];
     private ArrayList<Product> Cart = new ArrayList<>();
+
+    public Customer() {
+    }
 
     public Customer(int id, String Name, String location, String email, String phone, String Password, UserType user) {
         super(id, Password, user);

@@ -15,7 +15,12 @@ import java.util.Scanner;
         UserType userType ;
         Database database;
         Scanner scanner;
+
         //constructor
+
+        public User() {
+        }
+
         User(int id , String Password, UserType user){
             userId=id;
             password = Password;

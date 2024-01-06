@@ -1,5 +1,6 @@
 package com.example.gui;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-public class Admin extends User {
+public class Admin extends User implements Serializable {
     private int Adminid;
     private String adminName;
     private String email;
@@ -17,16 +18,30 @@ public class Admin extends User {
     static private List<Product> products;
     static private List<User> users;
 
-    public Admin(int adminid ,String adminName, String email, String password , UserType admin) {
-        super(adminid,password,admin);
+
+
+    public Admin() {
+        // default constructor
+    }
+
+    public Admin(int adminid, String adminName, String email, String password, UserType admin) {
+        super(adminid, password, admin);
         this.products = new ArrayList<>();
         this.adminName = adminName;
         this.email = email;
-
     }
     int getid(){
         return Adminid;
     }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
+    }
+
     public String getEmail(){
         return email;
     }
