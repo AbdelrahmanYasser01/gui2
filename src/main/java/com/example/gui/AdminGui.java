@@ -34,7 +34,7 @@ public class AdminGui extends Application {
         adminmenu.setAlignment(Pos.CENTER);
 
 
-        Image image = new Image("https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.og.jpg?202311010232"); // Assuming the image file is in the project directory
+        Image image = new Image("https://cdn.thewirecutter.com/wp-content/media/2023/09/appleiphonesep2023-2048px-iphone15pro.jpg?auto=webp&quality=60&width=570&dpr=2"); // Assuming the image file is in the project directory
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
         //imageView.setFitWidth(primaryStage.getWidth());
