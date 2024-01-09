@@ -25,6 +25,7 @@ import java.util.ArrayList;
 // TODO: after he signed in got to menu for admin , customer , seller
 // todo : sign up page
 // todo : binary files
+// todo: ask abdelrahman's brother ( null oasswords / how to delete data from a binary file
 
 public class HelloApplication extends Application {
     public static void main(String[] args) {

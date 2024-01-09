@@ -67,8 +67,9 @@ public class Admin extends User implements Serializable {
         System.out.println("Please enter user password");
         String userPass = scanner.next();
 
-        return new User(userID, userPass, userType);
+        //return new User(userID, userPass, userType);
 
+        return null;
     }
 
     public void addProduct() {
@@ -280,9 +281,6 @@ public class Admin extends User implements Serializable {
         }
     }
 
-    //____________________________________________________________________________
-    //____________________Listing com.example.gui.User and Products_______________________________
-    //____________________________________________________________________________
 
     public void listUser(){
         if (users.isEmpty()) {

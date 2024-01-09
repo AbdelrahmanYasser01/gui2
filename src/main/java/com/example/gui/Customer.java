@@ -14,7 +14,7 @@ public class Customer extends User implements Serializable {
     String Phonenum;
     int CustomerId;
     int CartId;
-    ArrayList<String> Products = new ArrayList<>();
+    ArrayList<Product> Products = new ArrayList<>();
     Double Totalamount;
     int numoforders;
     //ArrayList<String> orders;
@@ -72,11 +72,11 @@ public class Customer extends User implements Serializable {
         CartId = cartId;
     }
 
-    public ArrayList<String> getProducts() {
+    public ArrayList<Product> getProducts() {
         return Products;
     }
 
-    public void setProducts(ArrayList<String> products) {
+    public void setProducts(ArrayList<Product> products) {
         Products = products;
     }
 
@@ -154,8 +154,8 @@ public class Customer extends User implements Serializable {
 
     public List<Product> searchProd(String searchField) {
         List<Product> search = new ArrayList<>();
-        for (String productData : Products) {
-            Product product = Product.parse(productData);
+        for (Product productData : Products) {
+            Product product = productData;
             if (product != null && product.getName().toLowerCase().contains(searchField.toLowerCase())) {
                 search.add(product);
             }
@@ -197,11 +197,11 @@ public class Customer extends User implements Serializable {
 
         return new Customer(customerID, customerName, Address, email, phone, password, user);
 
-    }
+    }  // text file
     @Override
     public String toString() {
         return this.getid() + "," + this.CustomerName + "," + this.address + "," + this.Email + "," + this.Phonenum + "," + this.password;
-    }
+    } // text files
 
     public static int generateRandomID() {
 

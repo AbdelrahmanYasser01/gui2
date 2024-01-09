@@ -104,13 +104,10 @@ public class ProductsGUI extends Application implements Serializable  {
                 background.setArcWidth(60);
                 background.setArcHeight(60);
                 ArrayList<Product> alist = new ArrayList<>();
-                //alist.add(po1);
                 ProductsGUI prod = new ProductsGUI();
                 prod.fillarraylist(alist);
                 ObservableList<Product> p = FXCollections.observableArrayList(alist);
                 ListView<Product> listview = new ListView<>(p);
-                StackPane stack = new StackPane();
-                //stack.getChildren().addAll(background,listview);
                  listview.setStyle("-fx-control-inner-background: Black;");
                 HBox back = new HBox(10, listview, right);
 
