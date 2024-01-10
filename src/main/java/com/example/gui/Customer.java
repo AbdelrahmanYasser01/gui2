@@ -5,19 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Customer extends User {
+public class Customer extends User implements Serializable{
     //comment
+    private static final long serialVersionUID = 6921455283210236562L; // Or use the original value
+
+
     private
     String CustomerName;
     String address;
     String Email;
     String Phonenum;
-    int CustomerId;
+    int Id;
     int CartId;
     ArrayList<Product> Products = new ArrayList<>();
     Double Totalamount;
     int numoforders;
-
+    String password;
     //ArrayList<String> orders;
     Order[] order = new Order[numoforders];
     private ArrayList<Product> Cart = new ArrayList<>();
@@ -31,8 +34,26 @@ public class Customer extends User {
         address = location;
         Email = email;
         Phonenum = phone;
-//        this.password = Password;
-//        this.Id = Id;
+        this.password = Password;
+        this.Id = Id;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+
+    public String getpassword() {
+        return password;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getCustomerName() {

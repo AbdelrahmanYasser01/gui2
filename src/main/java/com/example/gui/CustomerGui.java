@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -12,6 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -22,12 +25,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class CustomerGui extends Application  {
-    private static final String[] IMAGE_URLS = {
-            "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.og.jpg?202311010232",
-            "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-color-lineup-geo-230912_big.jpg.large_2x.jpg",
-            "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-USB-C-connector-cable-230912_big.jpg.large_2x.jpg",
-            "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-FineWoven-Cases-and-Wallet-with-Magsafe-230912_big.jpg.large_2x.jpg",
-    };
+
     private int currentIndex = 0;
     private ImageView image1 = new ImageView();
     public static void main(String[] args) {
@@ -80,7 +78,7 @@ public class CustomerGui extends Application  {
         StackPane Productcon = new StackPane();
         HBox Addingprod = new HBox();
 
-        Image img = new Image("https://t4.ftcdn.net/jpg/03/78/40/11/360_F_378401105_9LAka9cRxk5Ey2wwanxrLTFCN1U51DL0.jpg");
+        Image img = new Image("https://www.apple.com/newsroom/images/product/apple-news/Apple-BKC-Mumbai-India-media-preview-hero.jpg.landing-regular_2x.jpg");
         ImageView imgvw = new ImageView(img);
 
         ArrayList<Product> alist = new ArrayList<>();
@@ -135,7 +133,26 @@ public class CustomerGui extends Application  {
         } );
         TextField productType = new TextField("add product");
         Button addprod = new Button("ADD TO CART");
-        VBox Buttons = new VBox(productType,addprod);
+        TextField searchField = new TextField("search");
+        Button searchbtn = new Button("Search");
+        HBox srch = new HBox(searchField,searchbtn);
+        HBox adding = new HBox(productType,addprod);
+        VBox allmanaging = new VBox(srch,adding);
+        allmanaging.setAlignment(Pos.CENTER_RIGHT);
+
+        searchbtn.setOnAction(event -> {
+            String newValue = searchField.getText().trim();
+            if (newValue.isEmpty()) {
+                // If the search field is empty, display the original list
+                listview.setItems(p);
+            } else {
+                ObservableList<Product> filteredItems = filterItems(p, newValue);
+                listview.setItems(filteredItems);
+                if (filteredItems.isEmpty()) {
+                    noproductFound("No Products Found", "No products matching the search criteria.");
+                }
+            }
+            });
 
         listview.setOnMouseClicked(event -> {
             Product selectedItem = listview.getSelectionModel().getSelectedItem();
@@ -150,8 +167,10 @@ public class CustomerGui extends Application  {
             products.add(Product.parse(productType.getText()));
         });
 
-        Addingprod.getChildren().addAll(listview,Buttons);
+        Addingprod.getChildren().addAll(listview,allmanaging);
         // Add UI components for adding products (e.g., TextFields, Buttons, etc.)
+        Rectangle background = new Rectangle(800, 800, Color.rgb(0, 0, 0, 0.2));
+
         Productcon.getChildren().addAll(imgvw,Addingprod);
 
         return Productcon;
@@ -186,6 +205,24 @@ public class CustomerGui extends Application  {
         }
     }
 
+    private ObservableList<Product> filterItems(ObservableList<Product> originalList, String filter) {
+        ObservableList<Product> filteredList = FXCollections.observableArrayList();
 
+        for (Product item : originalList) {
+            if (item.getName().toLowerCase().contains(filter.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
 
+        return filteredList;
+    }
+    private void noproductFound(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }
+
+

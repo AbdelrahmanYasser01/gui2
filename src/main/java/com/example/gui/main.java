@@ -50,7 +50,7 @@ public class main {
             Admin a1 = new Admin(0001,"layla","layla@gmail.com","meshadra",UserType.Admin);
             Admin a2 = new Admin(0002,"nour","nour@gmail.com","aloyalayla",UserType.Admin);
             Admin a3 = new Admin(0003,"noureltanya","secondnour@gmail.com","gebtakhry",UserType.Admin);
-            ArrayList<Admin> admlist = new ArrayList<>();
+            ArrayList<Object> admlist = new ArrayList<>();
             admlist.add(a1);
             admlist.add(a2);
             admlist.add(a3);
@@ -63,7 +63,7 @@ public class main {
             sellerdatabase.start_write();
             Seller s1 = new Seller(0001,"malak","malak@gmail","password",UserType.Seller);
             Seller s2 = new Seller(0002,"moka","malak@gmail","word",UserType.Seller);
-            ArrayList<Seller> sellerlist = new ArrayList<>();
+            ArrayList<Object> sellerlist = new ArrayList<>();
             sellerlist.add(s1);
             sellerlist.add(s2);
             sellerdatabase.insert(sellerlist);
@@ -73,9 +73,9 @@ public class main {
             String customerpath = "customer.dat";
             Database customerdatabase = new Database(customerpath);
             customerdatabase.start_write();
-            Customer c1 = new Customer(0001,"abd","maadi","abd@miu","01111111","boring",UserType.Customer);
-            Customer c2 = new Customer(0001,"nobody","nowhere","abd@miu","01111111","hell",UserType.Customer);
-            ArrayList<Customer> customer =  new ArrayList<>();
+            Customer c1 = new Customer(0001,"amina","maadi","abd@miu","01111111","1234",UserType.Customer);
+            Customer c2 = new Customer(0001,"amin","nowhere","abd@miu","01111111","5678",UserType.Customer);
+            ArrayList<Object> customer =  new ArrayList<>();
             customer.add(c1);
             customer.add(c2);
             customerdatabase.insert(customer);

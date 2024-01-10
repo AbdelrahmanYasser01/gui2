@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -12,62 +13,89 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
 public class Customereditui extends Application {
 
-    private static final String[] IMAGE_URLS = {
-            "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.og.jpg?202311010232",
-"https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-color-lineup-geo-230912_big.jpg.large_2x.jpg",
-"https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-USB-C-connector-cable-230912_big.jpg.large_2x.jpg",
-            "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-FineWoven-Cases-and-Wallet-with-Magsafe-230912_big.jpg.large_2x.jpg",
-    };
-
-    private int currentIndex = 0;
-    private ImageView imageView = new ImageView();
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        StackPane root = new StackPane();
-        root.setAlignment(Pos.CENTER);
-        root.getChildren().add(imageView);
-
-        Scene scene = new Scene(root, 400, 300);
-        primaryStage.setTitle("Auto Image Slider Example");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-        // Create a timeline to switch images every 3 seconds (adjust as needed)
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(3), event -> nextImage(scene))
-        );
-        timeline.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
-        timeline.play();
-    }
-
-    private void nextImage(Scene scene) {
-        if (currentIndex < IMAGE_URLS.length - 1) {
-            currentIndex++;
-        } else {
-            currentIndex = 0;
+        public static void main(String[] args) {
+            launch(args);
         }
 
-        loadImage(IMAGE_URLS[currentIndex], scene);    }
+        @Override
+        public void start(Stage primaryStage) {
+            primaryStage.setTitle("Shopping Cart");
 
-    private void loadImage(String imageUrl, Scene scene) {
-        Image image = new Image(imageUrl);
+            // Create TableView and columns
+            TableView<PProduct> cartTableView = new TableView<>();
+            TableColumn<PProduct, String> nameColumn = new TableColumn<>("Name");
+            TableColumn<PProduct, Integer> idColumn = new TableColumn<>("ID");
+            TableColumn<PProduct, Double> priceColumn = new TableColumn<>("Price");
 
-        // Set the properties to make the image fit the window
-        imageView.setImage(image);
-        imageView.setFitWidth(scene.getWidth()); // Adjust to the window width
-        imageView.setFitHeight(scene.getHeight()); // Adjust to the window height
+            nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+            idColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
+            priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
+
+            cartTableView.getColumns().addAll(nameColumn, idColumn, priceColumn);
+
+            // Create cart data
+            ObservableList<PProduct> cartItems = FXCollections.observableArrayList(
+                    new PProduct("Product1", 1, 19.99),
+                    new PProduct("Product2", 2, 29.99),
+                    new PProduct("Product3", 3, 39.99)
+            );
+
+            // Set cart data to the TableView
+            cartTableView.setItems(cartItems);
+
+            // Create a layout
+            VBox vbox = new VBox(cartTableView);
+
+            // Create a scene
+            Scene scene = new Scene(vbox, 400, 300);
+
+            // Set the scene to the stage
+            primaryStage.setScene(scene);
+
+            // Show the stage
+            primaryStage.show();
+        }
     }
-    }
+
+
+
+    class PProduct {
+            private final StringProperty name;
+            private final IntegerProperty id;
+            private final DoubleProperty price;
+
+            public PProduct(String name, int id, double price) {
+                this.name = new SimpleStringProperty(name);
+                this.id = new SimpleIntegerProperty(id);
+                this.price = new SimpleDoubleProperty(price);
+            }
+
+            public StringProperty nameProperty() {
+                return name;
+            }
+
+            public int getId() {
+                return id.get();
+            }
+
+            public IntegerProperty idProperty() {
+                return id;
+            }
+
+            public double getPrice() {
+                return price.get();
+            }
+
+            public DoubleProperty priceProperty() {
+                return price;
+            }
+        }
 
 

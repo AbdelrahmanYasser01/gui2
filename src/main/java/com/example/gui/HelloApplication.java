@@ -36,6 +36,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         AdminGui admin = new AdminGui();
+        CustomerGui customer = new CustomerGui();
         Text text1 = new Text(" username:");
         Text text2 = new Text(" password:");
         Text text3 = new Text("or if you don't have an account");
@@ -70,7 +71,7 @@ public class HelloApplication extends Application {
             System.out.println(Sellerlist.toString());
             if ("Admin".equals(selectedRole)) {
                 for (Admin admin6 : adminslist) {
-                    if (username.equals(admin6.getAdminName()) ) {
+                    if (username.equals(admin6.getAdminName())  ) {
                         // search in file if pass and username
                         System.out.println("yes");
                         admin.start(stage);
@@ -81,9 +82,14 @@ public class HelloApplication extends Application {
             }
             else if("Customer".equals(selectedRole)){
                 for (Customer admin6 : customerlist) {
-                    if (username.equals(admin6.getCustomerName()) ) {
+                    if (username.equals(admin6.getCustomerName()) && pass.equals(admin6.getpassword()) ) {
                         // search in file if pass and username
                         System.out.println("yes");
+                        try {
+                            customer.start(stage);
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
+                        }
 
                     }
                 }

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Admin extends User implements Serializable {
+    private static final long serialVersionUID = -5387575740051064873L;
     private int Adminid;
     private String adminName;
     private String email;
@@ -33,12 +34,16 @@ public class Admin extends User implements Serializable {
     int getid(){
         return Adminid;
     }
+    public String getpassword(){
+        return password ;
+    }
 
     public String getAdminName() {
         return adminName;
     }
 
     public void setAdminName(String adminName) {
+
         this.adminName = adminName;
     }
 

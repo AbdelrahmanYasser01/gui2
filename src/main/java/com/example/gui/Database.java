@@ -26,10 +26,10 @@ public class Database  {
         this.objectOutputStream = new ObjectOutputStream(new FileOutputStream(file_path));
     }
 
-    public void insert(ArrayList<Object> data) throws IOException {
-        for(Object obj : data){
-            this.objectOutputStream.writeObject(obj);
-        }
+    public void insert(Object data) throws IOException {
+       // for(Object obj : data){
+            this.objectOutputStream.writeObject(data);
+       // }
     }
 
     public void start_read() throws IOException {
