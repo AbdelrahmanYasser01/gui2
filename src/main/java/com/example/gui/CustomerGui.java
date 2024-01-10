@@ -29,7 +29,7 @@ public class CustomerGui extends Application  {
 
         primaryStage.setTitle("Tab with Image Example");
 
-        ObservableList<Customereditui.Product> products = FXCollections.observableArrayList();
+        ObservableList<Product> products = FXCollections.observableArrayList();
         // Create a TabPane
         TabPane tabPane = new TabPane();
 

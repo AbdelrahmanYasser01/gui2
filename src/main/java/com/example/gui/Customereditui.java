@@ -1,88 +1,72 @@
 package com.example.gui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class Customereditui extends Application {
 
-        public static void main(String[] args) {
-            launch(args);
+    private static final String[] IMAGE_URLS = {
+            "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.og.jpg?202311010232",
+            "https://cdn.thewirecutter.com/wp-content/media/2023/09/appleiphonesep2023-2048px-applewatch1.jpg?auto=webp&quality=60&width=570&dpr=2",
+
+    };
+
+    private int currentIndex = 0;
+    private ImageView imageView = new ImageView();
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        StackPane root = new StackPane();
+        root.setAlignment(Pos.CENTER);
+        root.getChildren().add(imageView);
+
+        Scene scene = new Scene(root, 400, 300);
+        primaryStage.setTitle("Auto Image Slider Example");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        // Create a timeline to switch images every 3 seconds (adjust as needed)
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(3), event -> nextImage(scene))
+        );
+        timeline.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
+        timeline.play();
+    }
+
+    private void nextImage(Scene scene) {
+        if (currentIndex < IMAGE_URLS.length - 1) {
+            currentIndex++;
+        } else {
+            currentIndex = 0;
         }
 
-        @Override
-        public void start(Stage primaryStage) {
-            // Create a shared data model (ObservableList)
-            ObservableList<Product> products = FXCollections.observableArrayList();
+        loadImage(IMAGE_URLS[currentIndex], scene);    }
 
-            // Create a TabPane
-            TabPane tabPane = new TabPane();
+    private void loadImage(String imageUrl, Scene scene) {
+        Image image = new Image(imageUrl);
 
-            // Add Product tab
-            Tab addProductTab = new Tab("Add Product");
-            addProductTab.setContent(createAddProductContent(products));
-
-            // Display Products tab
-            Tab displayProductsTab = new Tab("Display Products");
-            displayProductsTab.setContent(createDisplayProductsContent(products));
-
-            tabPane.getTabs().addAll(addProductTab, displayProductsTab);
-
-            Scene scene = new Scene(tabPane, 600, 400);
-            primaryStage.setTitle("Product Tabs Example");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        }
-
-        private StackPane createAddProductContent(ObservableList<Product> products) {
-
-            StackPane addProductContent = new StackPane();
-
-            // Add UI components for adding products (e.g., TextFields, Buttons, etc.)
-
-            Button addButton = new Button("Add Product");
-            addButton.setOnAction(event -> {
-                // Add the product to the shared data model
-                Product newProduct = new Product("New Product");
-                products.add(newProduct);
-            });
-
-            addProductContent.getChildren().add(addButton);
-
-            return addProductContent;
-        }
-
-        private StackPane createDisplayProductsContent(ObservableList<Product> products) {
-            StackPane displayProductsContent = new StackPane();
-
-            // Add UI components for displaying products (e.g., ListView, TableView, etc.)
-            ListView<Product> listView = new ListView<>(products);
-
-            displayProductsContent.getChildren().add(listView);
-
-            return displayProductsContent;
-        }
-
-        public static class Product {
-            private String name;
-
-            public Product(String name) {
-                this.name = name;
-            }
-
-            @Override
-            public String toString() {
-                return name;
-            }
-        }
+        // Set the properties to make the image fit the window
+        imageView.setImage(image);
+        imageView.setFitWidth(scene.getWidth()); // Adjust to the window width
+        imageView.setFitHeight(scene.getHeight()); // Adjust to the window height
+    }
     }
 
 
