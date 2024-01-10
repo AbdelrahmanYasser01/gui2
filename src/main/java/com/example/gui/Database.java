@@ -26,8 +26,10 @@ public class Database  {
         this.objectOutputStream = new ObjectOutputStream(new FileOutputStream(file_path));
     }
 
-    public void insert(Object data) throws IOException {
-        this.objectOutputStream.writeObject(data);
+    public void insert(ArrayList<Object> data) throws IOException {
+        for(Object obj : data){
+            this.objectOutputStream.writeObject(obj);
+        }
     }
 
     public void start_read() throws IOException {
@@ -59,7 +61,8 @@ public class Database  {
 
             List<Object> result = read();
             for (Object data : result) {
-                System.out.println(data);
+                    System.out.println(data);
+
             }
 
             close_read();

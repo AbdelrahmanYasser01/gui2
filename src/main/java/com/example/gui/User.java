@@ -1,10 +1,11 @@
 package com.example.gui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 //todo:abstract , binary file
 
-    public abstract class User {
+    public abstract class User implements Serializable {
         public int userId;
         public String password;
         public
@@ -19,7 +20,7 @@ import java.util.Scanner;
 
         User(int id , String Password, UserType user){
             userId=id;
-            password = Password;
+            this.password = Password;
             //       userType= user;
         }
         ArrayList<String> orders;
