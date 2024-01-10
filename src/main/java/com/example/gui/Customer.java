@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Customer extends User implements Serializable {
+public class Customer extends User {
     //comment
     private
     String CustomerName;
@@ -17,6 +17,7 @@ public class Customer extends User implements Serializable {
     ArrayList<Product> Products = new ArrayList<>();
     Double Totalamount;
     int numoforders;
+
     //ArrayList<String> orders;
     Order[] order = new Order[numoforders];
     private ArrayList<Product> Cart = new ArrayList<>();
@@ -24,12 +25,14 @@ public class Customer extends User implements Serializable {
     public Customer() {
     }
 
-    public Customer(int id, String Name, String location, String email, String phone, String Password, UserType user) {
-        super(id, Password, user);
+    public Customer(int Id, String Name, String location, String email, String phone, String Password, UserType user) {
+        super(Id, Password, user);
         CustomerName = Name;
         address = location;
         Email = email;
         Phonenum = phone;
+//        this.password = Password;
+//        this.Id = Id;
     }
 
     public String getCustomerName() {
