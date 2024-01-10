@@ -18,13 +18,28 @@ public class main {
             Database productdatabase = new Database(productFilepath);
             productdatabase.start_write();
 
-            Product p1 = new Product(0001,"low dunks",100.0);
-            Product p2 = new Product(0002,"air force",80.0);
-            Product p3 = new Product(0003,"jordan",200.0);
+            Product p1 = new Product(0001,"iphone 15 Pro",100000.0);
+            Product p2 = new Product(0002,"airpods 2",10000.0);
+            Product p3 = new Product(0003,"watch series 9",20000.0);
+            Product p4 = new Product(0004,"iPad mini",50000.0);
+            Product p5 = new Product(0005,"Macbook",15000.0);
+            Product p6 = new Product(0006,"HomePod",10000.0);
+            Product p7 = new Product(0007,"IMac",200000.0);
+            Product p8 = new Product(8,"IPad",70000.0);
+            Product p9 = new Product(9,"AirPod Max",30000.0);
+            Product p10 = new Product(9,"iPhone 15",90000.0);
+
             ArrayList<Product> prodlist = new ArrayList<>();
             prodlist.add(p1);
             prodlist.add(p2);
             prodlist.add(p3);
+            prodlist.add(p4);
+            prodlist.add(p5);
+            prodlist.add(p6);
+            prodlist.add(p7);
+            prodlist.add(p8);
+            prodlist.add(p9);
+            prodlist.add(p10);
             productdatabase.insert(prodlist);
             productdatabase.close_write();
             productdatabase.displayContent();

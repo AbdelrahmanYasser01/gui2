@@ -1,5 +1,7 @@
 package com.example.gui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.EOFException;
 import java.io.File;
@@ -19,7 +22,14 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class CustomerGui extends Application  {
-
+    private static final String[] IMAGE_URLS = {
+            "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.og.jpg?202311010232",
+            "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-color-lineup-geo-230912_big.jpg.large_2x.jpg",
+            "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-USB-C-connector-cable-230912_big.jpg.large_2x.jpg",
+            "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-FineWoven-Cases-and-Wallet-with-Magsafe-230912_big.jpg.large_2x.jpg",
+    };
+    private int currentIndex = 0;
+    private ImageView image1 = new ImageView();
     public static void main(String[] args) {
         launch(args);
     }
@@ -46,6 +56,7 @@ public class CustomerGui extends Application  {
         ObservableList<Product> p = FXCollections.observableArrayList();
         imageTab.setContent(createAddtocartContent(p));
         imageTab.setClosable(false);
+        imageTab.setClosable(false);
 
         //Cart tab
         Tab image2tab = new Tab("Cart");
@@ -63,22 +74,65 @@ public class CustomerGui extends Application  {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+
     }
     private StackPane createAddtocartContent(ObservableList<Product> products) {
         StackPane Productcon = new StackPane();
         HBox Addingprod = new HBox();
-        Image image = new Image("https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.og.jpg?202311010232"); // Assuming the image file is in the project directory
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(image.getWidth());
-        imageView.setFitHeight(image.getHeight());
+
+        Image img = new Image("https://t4.ftcdn.net/jpg/03/78/40/11/360_F_378401105_9LAka9cRxk5Ey2wwanxrLTFCN1U51DL0.jpg");
+        ImageView imgvw = new ImageView(img);
+
         ArrayList<Product> alist = new ArrayList<>();
         ProductsGUI prod = new ProductsGUI();
         prod.fillarraylist(alist);
         ObservableList<Product> p = FXCollections.observableArrayList(alist);
         ListView<Product> listview = new ListView<>(p);
-        listview.setStyle("-fx-control-inner-background: Black;");
+        listview.setStyle("-fx-control-inner-background: light grey;");
+        listview.setPrefSize(300,300);
+        listview.setCellFactory(param -> new ListCell<Product>() {
+            private final HBox graphicContainer = new HBox(10);
 
+            @Override
+            protected void updateItem(Product item, boolean empty) {
+                super.updateItem(item, empty);
 
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    ImageView imageView = null;
+
+                    if ("iphone 15 Pro".equals(item.getName())) {
+                        imageView = new ImageView(new Image("https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-13-iphone-nav-202309_GEO_US?wid=400&hei=260&fmt=png-alpha&.v=1692971740190", 800, 200, true, true));
+                    } else if ("airpods 2".equals(item.getName())) {
+                        imageView = new ImageView(new Image("https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MME73?wid=532&hei=582&fmt=png-alpha&.v=1632861342000", 800, 200, true, true));
+                    } else if ("watch series 9".equals(item.getName())) {
+                        imageView = new ImageView(new Image("https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-13-watch-nav-202309?wid=400&hei=260&fmt=png-alpha&.v=1693703822208", 800, 200, true, true));
+                    }else if ("iPad mini".equals(item.getName())) {
+                        imageView = new ImageView(new Image("https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-13-ipad-nav-202210?wid=400&hei=260&fmt=png-alpha&.v=1664912135437", 800, 200, true, true));
+                    }else if ("Macbook".equals(item.getName())) { //
+                        imageView = new ImageView(new Image("https://www.apple.com/v/macbook-pro/aj/images/overview/contrast/product_tile_mba_13_15__cw1q3qd2yyeu_large_2x.png", 800, 200, true, true));
+                    }else if ("HomePod".equals(item.getName())) {//
+                        imageView = new ImageView(new Image("https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/homepod-mini-select-blue-202110?wid=532&hei=582&fmt=png-alpha&.v=1632925511000", 800, 200, true, true));
+                    }else if ("IMac".equals(item.getName())) {//
+                        imageView = new ImageView(new Image("https://www.apple.com/v/imac/p/images/overview/routers/compare_imac__f7hnie54ekii_large_2x.png", 800, 200, true, true));
+                    }else if ("IPad".equals(item.getName())) {
+                        imageView = new ImageView(new Image("https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-13-ipad-nav-202210?wid=400&hei=260&fmt=png-alpha&.v=1664912135437", 800, 200, true, true));
+                    }else if ("AirPod Max".equals(item.getName())) {//
+                        imageView = new ImageView(new Image("https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/airpods-max-select-silver-202011?wid=532&hei=582&fmt=png-alpha&.v=1604021221000", 800, 200, true, true));
+                    }else if ("iPhone 15".equals(item.getName())) {
+                        imageView = new ImageView(new Image("https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-13-accessories-nav-202309?wid=400&hei=260&fmt=png-alpha&.v=1692803114952", 800, 200, true, true));
+                    }
+
+                    if (imageView != null) {
+                        StackPane imagePane = new StackPane(imageView);
+                        graphicContainer.getChildren().setAll(imagePane);
+                        setGraphic(graphicContainer);
+                    }
+                }
+            }
+        } );
         TextField productType = new TextField("add product");
         Button addprod = new Button("ADD TO CART");
         VBox Buttons = new VBox(productType,addprod);
@@ -98,7 +152,8 @@ public class CustomerGui extends Application  {
 
         Addingprod.getChildren().addAll(listview,Buttons);
         // Add UI components for adding products (e.g., TextFields, Buttons, etc.)
-        Productcon.getChildren().addAll(imageView,Addingprod);
+        Productcon.getChildren().addAll(imgvw,Addingprod);
+
         return Productcon;
     }
     private StackPane createDisplayCart(ObservableList<Product> products) {
@@ -130,4 +185,7 @@ public class CustomerGui extends Application  {
             e.printStackTrace();
         }
     }
+
+
+
 }
