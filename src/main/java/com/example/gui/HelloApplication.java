@@ -22,10 +22,10 @@ import javafx.scene.shape.Rectangle;
 import java.io.*;
 import java.util.ArrayList;
 
-// TODO: after he signed in got to menu for admin , customer , seller
+// TODO: after he signed in got to menu for seller
 // todo : sign up page
-// todo : binary files
-// todo: ask abdelrahman's brother ( null oasswords / how to delete data from a binary file
+
+
 
 public class HelloApplication extends Application {
     public static void main(String[] args) {
@@ -110,6 +110,7 @@ public class HelloApplication extends Application {
         GridPane pane = new GridPane();
         pane.setMinSize(400,200);
         pane.setPadding(new Insets(10,10,10,10));
+
 
         pane.setHgap(5);
         pane.setVgap(5);
