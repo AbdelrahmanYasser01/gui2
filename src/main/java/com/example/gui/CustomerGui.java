@@ -4,12 +4,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -17,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.controlsfx.control.spreadsheet.Grid;
 
 import java.io.EOFException;
 import java.io.File;
@@ -177,11 +180,23 @@ public class CustomerGui extends Application  {
     }
     private StackPane createDisplayCart(ObservableList<Product> products) {
         StackPane displayProductsContent = new StackPane();
-
+        GridPane displaycartdetails = new GridPane();
+        Label price = new Label("Total price :");
+        Label Totprice = new Label();
+        Label ShopCart = new Label("Your Shopping Cart :");
         // Add UI components for displaying products (e.g., ListView, TableView, etc.)
         ListView<Product> listView = new ListView<>(products);
+        displaycartdetails.add(ShopCart,0,0);
+        displaycartdetails.add(listView,0,1);
+        displaycartdetails.add(price,0,2);
+        Totprice.setText(calculateTotalAmount(products));
+        displaycartdetails.add(Totprice,0,3);
+        products.addListener((ListChangeListener<Product>) change -> {
+            Totprice.setText(calculateTotalAmount(products));
+        });
+         displaycartdetails.setAlignment(Pos.CENTER);
 
-        displayProductsContent.getChildren().add(listView);
+        displayProductsContent.getChildren().add(displaycartdetails);
 
         return displayProductsContent;
     }
@@ -222,6 +237,16 @@ public class CustomerGui extends Application  {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+    public String calculateTotalAmount(ObservableList<Product> originalList) {
+        double totalAmount = 0;
+
+        // Iterate through the list and sum up the prices
+        for (Product product : originalList) {
+            totalAmount += product.getPrice();
+        }
+        String formattedTotalAmount = String.format("Total Amount: %.2f EGP", totalAmount);
+        return formattedTotalAmount;
     }
 }
 

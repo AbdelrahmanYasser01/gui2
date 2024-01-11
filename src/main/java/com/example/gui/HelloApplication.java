@@ -37,6 +37,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         AdminGui admin = new AdminGui();
         CustomerGui customer = new CustomerGui();
+        SellerGui seller = new SellerGui();
         Text text1 = new Text(" username:");
         Text text2 = new Text(" password:");
         Text text3 = new Text("or if you don't have an account");
@@ -71,7 +72,7 @@ public class HelloApplication extends Application {
             System.out.println(Sellerlist.toString());
             if ("Admin".equals(selectedRole)) {
                 for (Admin admin6 : adminslist) {
-                    if (username.equals(admin6.getAdminName())  ) {
+                    if (username.equals(admin6.getAdminName()) && pass.equals(admin6.getpassword()) ) {
                         // search in file if pass and username
                         System.out.println("yes");
                         admin.start(stage);
@@ -185,6 +186,7 @@ public class HelloApplication extends Application {
         }
         return false; // Person not found
     }
+    // read file into arraylist
     public void fillarraylist(ArrayList<Admin> list) {
         String fileName = "admin.dat";
         File file = new File(fileName);
