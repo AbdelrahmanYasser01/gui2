@@ -1,7 +1,5 @@
 package com.example.gui;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -17,9 +15,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.controlsfx.control.spreadsheet.Grid;
+import javafx.stage.StageStyle;
 
 import java.io.EOFException;
 import java.io.File;
@@ -181,9 +179,13 @@ public class CustomerGui extends Application  {
     private StackPane createDisplayCart(ObservableList<Product> products) {
         StackPane displayProductsContent = new StackPane();
         GridPane displaycartdetails = new GridPane();
-        Label price = new Label("Total price :");
+        Button cancelCart = new Button("cancel cart");
+        Label price = new Label();
         Label Totprice = new Label();
         Label ShopCart = new Label("Your Shopping Cart :");
+        Label removeitem = new Label("Double tab to remove");
+        Button checkout = new Button("Proceed to checkout");
+
         // Add UI components for displaying products (e.g., ListView, TableView, etc.)
         ListView<Product> listView = new ListView<>(products);
         displaycartdetails.add(ShopCart,0,0);
@@ -191,8 +193,38 @@ public class CustomerGui extends Application  {
         displaycartdetails.add(price,0,2);
         Totprice.setText(calculateTotalAmount(products));
         displaycartdetails.add(Totprice,0,3);
+        displaycartdetails.add(cancelCart,2,3);
+        displaycartdetails.add(removeitem,4,0);
+        displaycartdetails.add(checkout,4,3);
         products.addListener((ListChangeListener<Product>) change -> {
             Totprice.setText(calculateTotalAmount(products));
+           price.setText(calculatequantity(products));
+        });
+        cancelCart.setOnAction(event->{
+            products.clear();
+        });
+        listView.setOnMouseClicked(event -> {
+            // Get the selected product
+            Product selectedItem = listView.getSelectionModel().getSelectedItem();
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation to remove");
+            alert.setHeaderText("Remove Product");
+            alert.setContentText("Are you sure you want to remove this product?");
+
+            alert.showAndWait().ifPresent(result -> {
+                if (result == ButtonType.OK) {
+                    // User clicked OK, remove the selected product
+                    if (selectedItem != null) {
+                        products.remove(selectedItem);
+                    }
+                }
+            });
+        });
+        checkout.setOnAction(event -> {
+            Stage stage;
+
+           // checkoutStage(products);
         });
          displaycartdetails.setAlignment(Pos.CENTER);
 
@@ -247,6 +279,32 @@ public class CustomerGui extends Application  {
         }
         String formattedTotalAmount = String.format("Total Amount: %.2f EGP", totalAmount);
         return formattedTotalAmount;
+    }
+    public String calculatequantity(ObservableList<Product> originallist){
+        int countquantity = originallist.size(); // Use the size() method to get the number of elements in the list
+        String counterstring = String.format("Quantity: %d", countquantity);
+        return counterstring;
+    }
+    public void checkoutStage(ObservableList<Product> products,int Quantity , double amount){
+        Stage checkoutStage = new Stage();
+        checkoutStage.initModality(Modality.APPLICATION_MODAL); // Block events to other windows
+        checkoutStage.initStyle(StageStyle.UTILITY);
+        // arraylist customerdetails / shopping cart =
+        TextField location = new TextField();
+        TextField email = new TextField();
+        TextField  phone = new TextField();
+        TextField name = new TextField();
+        Label location1 = new Label();
+        Label email1 = new Label();
+        Label  phone1 = new Label();
+        Label name1 = new Label();
+        ArrayList<Product> shoppingcart = new ArrayList<>(products);
+        //Todo:continueeee
+        Order order = new Order(1111,0111,name.getText(),Quantity,amount,location.getText(),phone.getText(),email.getText(),shoppingcart);
+        Label hello = new Label ("hell0");
+        checkoutStage.setScene(new Scene(hello));
+
+        checkoutStage.showAndWait();
     }
 }
 
