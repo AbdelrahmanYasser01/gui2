@@ -3,6 +3,7 @@ package com.example.gui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
@@ -37,25 +38,25 @@ public class SignUp extends Application {
         scene2 = AdminScene();
         scene3 = CustomerScene();
         scene4 = SellerScene();
+        stage.setScene(scene1);
+        stage.show();
 
 
     }
 
     private Scene SignUpScene() {
         Button AdminButton = new Button("Admin");
-        AdminButton.setOnAction(e -> switchScenes(scene2));
-        vbox1 = new VBox(AdminButton);
-        scene1 = new Scene(vbox1, 800, 500);
+
 
         Button CustomerButton = new Button("Customer");
-        CustomerButton.setOnAction(e -> switchScenes(scene3));
-        vbox2 = new VBox(CustomerButton);
-        scene2 = new Scene(vbox2, 800, 500);
+
 
         Button SellerButton = new Button("Seller");
+        vbox3 = new VBox(AdminButton, CustomerButton, SellerButton);
+        AdminButton.setOnAction(e -> switchScenes(scene2));
+        CustomerButton.setOnAction(e -> switchScenes(scene3));
         SellerButton.setOnAction(e -> switchScenes(scene4));
-        vbox3 = new VBox(SellerButton);
-        scene3 = new Scene(vbox3, 800, 500);
+        scene1 = new Scene(vbox3, 800, 500);
 
         return scene1;
     }
@@ -63,6 +64,9 @@ public class SignUp extends Application {
     private Scene AdminScene() {
         Text text1 = new Text(" username:");
         Text text2 = new Text(" password:");
+        HBox h = new HBox(text1);
+        scene2 = new Scene(h);
+
         return scene2;
     }
 
@@ -80,8 +84,6 @@ public class SignUp extends Application {
 
         return scene4;
     }
-
-
 
 
     public void switchScenes(Scene scene) {

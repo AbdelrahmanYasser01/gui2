@@ -110,6 +110,14 @@ public class HelloApplication extends Application {
         GridPane pane = new GridPane();
         pane.setMinSize(400,200);
         pane.setPadding(new Insets(10,10,10,10));
+        bt.setOnAction(e -> {
+            SignUp s = new SignUp();
+            try {
+                s.start(stage);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
 
         pane.setHgap(5);
