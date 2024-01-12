@@ -21,7 +21,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CustomerGui extends Application  {
 
@@ -247,12 +252,84 @@ public class CustomerGui extends Application  {
         return displayProductsContent;
     }
     private StackPane createdisplaydetails(){
-        Label user = new Label("hello");
-        Label user2 = new Label();
+        Order o = new Order();
+        Label user = new Label("Please type your user name to view Details");
+        TextField user2 = new TextField();
+        Button bt = new Button("show");
+        DatePicker Startdate = new DatePicker();
+        DatePicker Enddate = new DatePicker();
+        Button btn = new Button("show specific order");
+        ArrayList<Order> al = new ArrayList<>();
+        fillarraylist(al);
+        ObservableList<Order> p = FXCollections.observableArrayList(al);
+        ObservableList<Order> ü = FXCollections.observableArrayList();
+        ListView<Order> orders = new ListView<>(ü);
+
+        orders.setPrefSize(10,100);
         StackPane pane = new StackPane();
-        VBox b = new VBox(user,user2);
-        pane.getChildren().addAll(b);
+        HBox b = new HBox(user,user2,bt);
+        HBox c = new HBox(Startdate,Enddate,btn);
+        VBox n = new VBox(b,c);
+
+        bt.setOnAction(event -> {
+            String newValue  = user2.getText().trim();
+            if (newValue.isEmpty()) {
+
+                orders.setItems(ü);
+            } else {
+                ObservableList<Order> filteredItems = filterorders(p, newValue);
+                orders.setItems(filteredItems);
+                if (filteredItems.isEmpty()) {
+                    noproductFound("No Products Found", "No products matching the search criteria.");
+                }
+            }
+
+        });
+        btn.setOnAction(event->{
+            String newvalue  = user2.getText().trim();
+            LocalDate dateS = Startdate.getValue();
+            Date convertstart = convertToDate(dateS);
+
+            LocalDate dateE = Enddate.getValue();
+            Date convertend= convertToDate(dateE);
+            ObservableList<Order> l = searchDateOrders(p,newvalue,convertstart,convertend);
+            orders.setItems(l);
+        });
+//        orders.setCellFactory(param -> new ListCell<Order>() {
+//            @Override
+//            protected void updateItem(Order item, boolean empty) {
+//                super.updateItem(item, empty);
+//                if (empty || item == null || item.getName() == null) {
+//                    setText(null);
+//                } else {
+//                    setText(item.getName()); // Set the text to be displayed in the cell
+//                }
+//            }
+//        });
+        VBox t = new VBox(n,orders);
+        pane.getChildren().addAll(t);
         return pane;
+    }
+    private Date convertToDate(LocalDate localDate) {
+        if (localDate == null) {
+            return null;
+        }
+        Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        return Date.from(instant);
+    }
+    public static ObservableList<Order> searchDateOrders(ObservableList<Order> allOrders, String username, Date startDate, Date endDate) {
+
+        ObservableList<Order> filteredOrders = FXCollections.observableArrayList();
+        for (Order order : allOrders) {
+            if (order.getName().equalsIgnoreCase(username)) {
+                Date orderDate = order.getOrderDate();
+                if (orderDate.after(startDate) && orderDate.before(endDate)) {
+                    filteredOrders.add(order);
+                }
+            }
+        }
+
+        return filteredOrders;
     }
     public void fillarraylist(ArrayList<Order> list) {
         String fileName = "Order.dat";
@@ -284,6 +361,26 @@ public class CustomerGui extends Application  {
         }
 
         return filteredList;
+    }
+    private ObservableList<Order> filterorders(ObservableList<Order> originalList, String filter) {
+        ObservableList<Order> filteredList = FXCollections.observableArrayList();
+
+        for (Order item : originalList) {
+            if (item.getName().toLowerCase().contains(filter.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+
+        return filteredList;
+    }
+    private ObservableList<Order> filterOrdersByDate(ObservableList<Order> orders, String customerName, Date startDate, Date endDate) {
+
+        return orders.filtered(order ->
+
+                order.getName().equalsIgnoreCase(customerName) &&
+                        order.getOrderDate().after(startDate) &&
+                        order.getOrderDate().before(endDate)
+        );
     }
     private void noproductFound(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -322,13 +419,15 @@ public class CustomerGui extends Application  {
         TextField email = new TextField();
         TextField  phone = new TextField();
         TextField name = new TextField();
-        VBox detail = new VBox(name,email,phone,location);
+        DatePicker orderdate = new DatePicker();
+        VBox detail = new VBox(name,email,phone,location,orderdate);
         Label location1 = new Label("location :");
         Label email1 = new Label("email :");
         Label  phone1 = new Label("phone :");
         Label name1 = new Label("name :");
+        Label date = new Label("Date :");
         Button btn = new Button("confirm");
-        VBox detail2 = new VBox(name1,email1,phone1,location1);
+        VBox detail2 = new VBox(name1,email1,phone1,location1,date);
         HBox detail3 = new HBox(detail2,detail,btn);
         detail3.setAlignment(Pos.CENTER);
 
@@ -340,8 +439,9 @@ public class CustomerGui extends Application  {
         System.out.println(orderlists);
        btn.setOnAction(e->{
            ArrayList<Product> shoppingcart = new ArrayList<>(products);
-
-           Order order = new Order(1111,0111,name.getText(),Quantity,amount,location.getText(),phone.getText(),email.getText(),shoppingcart);
+           LocalDate chosendate =orderdate.getValue();
+           Date selecteddate = Date.from(chosendate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+           Order order = new Order(1111,0111,name.getText(),Quantity,amount,location.getText(),phone.getText(),email.getText(),selecteddate,shoppingcart);
            orderlists.add(order);
            try {
                orderdb.start_write();

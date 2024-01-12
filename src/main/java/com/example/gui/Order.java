@@ -1,8 +1,9 @@
 package com.example.gui;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Order implements Serializable {
     private static final long serialVersionUID = 8549695678159894382L;
@@ -11,7 +12,6 @@ public class Order implements Serializable {
     int orderId ;
     int customerId;
     ArrayList<Product> Products = new ArrayList<>();
-    ArrayList<String> details;
     String Totalamount;
     String Quantity ;
     int ProductId;
@@ -19,9 +19,12 @@ public class Order implements Serializable {
     String Phonenumber;
     String Email;
     String name;
-    Date StartDate = new Date();
-    Date EndDate = new Date();
-    Order(int id , int customerId , String name ,String Quantity , String totalamount , String location , String phone , String email ,ArrayList<Product> products  ){
+    Date orderDate = new Date();
+
+    public Order() {
+    }
+
+    Order(int id , int customerId , String name , String Quantity , String totalamount , String location , String phone , String email , Date date , ArrayList<Product> products  ){
         this.orderId=id;
         this.customerId=customerId;
         this.name=name;
@@ -29,16 +32,78 @@ public class Order implements Serializable {
         this.Totalamount=totalamount;
         this.Products=products;
         this.Email=email;
+        this.orderDate=date;
         this.Phonenumber=phone;
         this.location=location;
 
        // todo:write in uml
     }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     void NumofOrders (Date Start , Date End){
         //search in list and count
     }
-    void viewOrdersDetails(){
-        //print order details : address order phone email id
+
+    private ArrayList<Order> readOrdersFromFile() {
+        ArrayList<Order> orders = new ArrayList<>();
+
+        String orderpath = "Order.dat";
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(orderpath))) {
+            while (true) {
+                try {
+                    orders.add((Order) ois.readObject());
+                } catch (EOFException e) {
+                    break; // End of file reached, exit the loop
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return orders;
+    }
+
+    public ArrayList<Order> getOrdersForCustomerWithinPeriod(String customerName, Date startDate, Date endDate) {
+        ArrayList<Order> ordersForCustomerWithinPeriod = new ArrayList<>();
+        ArrayList<Order> allOrders = readOrdersFromFile();
+
+        for (Order order : allOrders) {
+            Date orderTimestamp = order.getOrderDate();
+
+            if (order.getName().equals(customerName) &&
+                    orderTimestamp.after(startDate) && orderTimestamp.before(endDate)) {
+                ordersForCustomerWithinPeriod.add(order);
+            }
+        }
+
+        return ordersForCustomerWithinPeriod;
+    }
+    public ArrayList<Order> ViewOrdersDetails(String customerName) {
+        ArrayList<Order> ordersForCustomer = new ArrayList<>();
+        ArrayList<Order> allOrders = readOrdersFromFile();
+
+        for (Order order : allOrders) {
+            if (order.getName().equals(customerName)) {
+                ordersForCustomer.add(order);
+            }
+        }
+
+        return ordersForCustomer;
     }
     void PlaceOrder(){
         // confirm order -> go to payment
@@ -54,6 +119,7 @@ public class Order implements Serializable {
                 ", location='" + location + '\'' +
                 ", phone='" + Phonenumber + '\'' +
                 ", email='" + Email + '\'' +
+                ", orderDate=" + orderDate +
                 ", products=" + Products +
                 '}';
     }
