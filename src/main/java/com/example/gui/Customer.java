@@ -190,19 +190,19 @@ public class Customer extends User implements Serializable{
         return Cart; // not sure
     }
 
-    void MakePayment(Order order) {
-        System.out.println("Total amount : " + Totalamount);
-        System.out.println("Cash on delivery");
-        System.out.println("Confirm order");
-        Scanner s = new Scanner(System.in);
-        String confirm = s.nextLine();
-        if (confirm != "yes") {
-            CancelCart();
-        } else {
-            order.PlaceOrder();
-            System.out.println("order is confirmed");
-        }
-    }
+//    void MakePayment(Order order) {
+//        System.out.println("Total amount : " + Totalamount);
+//        System.out.println("Cash on delivery");
+//        System.out.println("Confirm order");
+//        Scanner s = new Scanner(System.in);
+//        String confirm = s.nextLine();
+//        if (confirm != "yes") {
+//            CancelCart();
+//        } else {
+//            order.PlaceOrder();
+//            System.out.println("order is confirmed");
+//        }
+//    }
 
 
     public static Customer parse(String data) {

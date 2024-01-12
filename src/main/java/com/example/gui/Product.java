@@ -17,13 +17,16 @@ public class Product implements Serializable {
     private Date StartDate = new Date();
     private Date EndDate = new Date();
 
+    public Product() {
+    }
 
-    public Product(int productID, String productName,double price){
+    public Product(int productID, String productName, double price){
         this.productID = productID;
         this.productName = productName;
         this.price = price;
     }
     int getId(){
+        productID = GenerateRandomID();
         return productID;
     }
     String getName(){
@@ -91,6 +94,12 @@ public class Product implements Serializable {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         // Add custom deserialization logic if needed
+    }
+    public static int GenerateRandomID() {
+
+        int min = 1000;
+        int max = 9999;
+        return (int) (Math.random() * (max - min + 1) + min);
     }
 
 //comment

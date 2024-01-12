@@ -26,7 +26,13 @@ public class AdminGui extends Application {
         Text text1 = new Text("ADMIN MENU");
         // label / 4 btn : view customer , seller ,product , add product
         Button bt1 = new Button("view products");
-        bt1.setOnAction(e -> prod.start(primaryStage));
+        bt1.setOnAction(e -> {
+            try {
+                prod.start(primaryStage);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         Button bt2 = new Button("view customers");
         Button bt3 = new Button("view sellers") ;
 

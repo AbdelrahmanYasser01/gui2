@@ -14,7 +14,6 @@ public class Order implements Serializable {
     ArrayList<Product> Products = new ArrayList<>();
     String Totalamount;
     String Quantity ;
-    int ProductId;
     String location;
     String Phonenumber;
     String Email;
@@ -55,9 +54,7 @@ public class Order implements Serializable {
         this.name = name;
     }
 
-    void NumofOrders (Date Start , Date End){
-        //search in list and count
-    }
+
 
     private ArrayList<Order> readOrdersFromFile() {
         ArrayList<Order> orders = new ArrayList<>();
@@ -76,37 +73,6 @@ public class Order implements Serializable {
         }
 
         return orders;
-    }
-
-    public ArrayList<Order> getOrdersForCustomerWithinPeriod(String customerName, Date startDate, Date endDate) {
-        ArrayList<Order> ordersForCustomerWithinPeriod = new ArrayList<>();
-        ArrayList<Order> allOrders = readOrdersFromFile();
-
-        for (Order order : allOrders) {
-            Date orderTimestamp = order.getOrderDate();
-
-            if (order.getName().equals(customerName) &&
-                    orderTimestamp.after(startDate) && orderTimestamp.before(endDate)) {
-                ordersForCustomerWithinPeriod.add(order);
-            }
-        }
-
-        return ordersForCustomerWithinPeriod;
-    }
-    public ArrayList<Order> ViewOrdersDetails(String customerName) {
-        ArrayList<Order> ordersForCustomer = new ArrayList<>();
-        ArrayList<Order> allOrders = readOrdersFromFile();
-
-        for (Order order : allOrders) {
-            if (order.getName().equals(customerName)) {
-                ordersForCustomer.add(order);
-            }
-        }
-
-        return ordersForCustomer;
-    }
-    void PlaceOrder(){
-        // confirm order -> go to payment
     }
     @Override
     public String toString() {

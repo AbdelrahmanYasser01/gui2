@@ -306,6 +306,7 @@ public class CustomerGui extends Application  {
 //                }
 //            }
 //        });
+        //Todo:count num of orders
         VBox t = new VBox(n,orders);
         pane.getChildren().addAll(t);
         return pane;
