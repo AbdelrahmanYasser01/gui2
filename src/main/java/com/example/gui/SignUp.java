@@ -17,6 +17,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 
 public class SignUp extends Application {
 
@@ -63,9 +66,27 @@ public class SignUp extends Application {
 
         Button SellerButton = new Button("Seller");
         vbox3 = new VBox(10, AdminButton, CustomerButton, SellerButton);
-        AdminButton.setOnAction(e -> switchScenes(AdminScene()));
-        CustomerButton.setOnAction(e -> switchScenes(CustomerScene()));
-        SellerButton.setOnAction(e -> switchScenes(SellerScene()));
+        AdminButton.setOnAction(e -> {
+            try {
+                switchScenes(AdminScene());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        CustomerButton.setOnAction(e -> {
+            try {
+                switchScenes(CustomerScene());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        SellerButton.setOnAction(e -> {
+            try {
+                switchScenes(SellerScene());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         Image image = new Image("https://images.squarespace-cdn.com/content/v1/5e66664810c4ff5e8746a290/1637101970501-RJF7RZC58EKEOE389CIF/Apple+Ring+Building+Night.jpg"); // Assuming the image file is in the project directory
         ImageView imageView = new ImageView(image);
@@ -85,15 +106,13 @@ public class SignUp extends Application {
 
 
 
-
-
         return scene1;
     }
 
-    private Scene AdminScene() {
+    private Scene AdminScene() throws IOException {
         Text text1 = new Text(" username:");
-        Text text2 = new Text(" password:");
-        Text email1 = new Text("      email: ");
+        Text text2 = new Text("      email: ");
+        Text email1 = new Text("password:");
 
         text1.setStyle("-fx-font:normal  20px 'IMPACT'  ");
         text2.setStyle("-fx-font:normal  20px 'IMPACT' ");
@@ -108,6 +127,8 @@ public class SignUp extends Application {
 
         email1.setStyle("-fx-font:normal  20px 'IMPACT' ");
 
+        Button signUp = new Button("Sign Up");
+
         GridPane s1 = new GridPane();
         s1.add(text1, 0,0);
         s1.add(text2, 0, 1);
@@ -115,6 +136,7 @@ public class SignUp extends Application {
         s1.add(username, 1, 0);
         s1.add(password, 1, 1);
         s1.add(email, 1, 2);
+        s1.add(signUp, 1, 3);
         //searchBack.setAlignment(Pos.CENTER);
 
         //s1.setPadding(new Insets(10));
@@ -134,32 +156,221 @@ public class SignUp extends Application {
         layout.getChildren().addAll(imageView, background, s1);
         s1.setAlignment(Pos.CENTER);
 
+
+
+        String filepath = "admin.dat";
+        Database d = new Database(filepath);
+        d.start_write();
+
+        signUp.setOnAction(e -> {
+            ArrayList<Admin> adminList = new ArrayList<>();
+
+            String us = username.getText();
+            String mail = email.getText();
+            String pass = password.getText();
+
+            Admin a = new Admin(1233, us, mail, pass, UserType.Admin);
+            System.out.println("Username: " + us);
+            System.out.println("Email: " + mail);
+            System.out.println("Password: " + pass);
+
+            adminList.add(a);
+            try {
+                d.insert(adminList);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            try {
+                d.close_write();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            d.displayContent();
+
+        });
+
         scene2 = new Scene(layout);
-
-
         return scene2;
     }
-
-    private Scene CustomerScene() {
+//todo: howar el previous stage(event handling)
+    private Scene CustomerScene() throws IOException {
         Text text1 = new Text("username:");
-        Text text2 = new Text("password:");
-        Text text3 = new Text("location:");
+        Text text2 = new Text("     email: ");
+        Text text3 = new Text("password:");
+        Text text4 = new Text("    phone: ");
+        Text text5 = new Text(" location:");
 
-        VBox h1 = new VBox(text1, text2);
-        scene2 = new Scene(h1);
+        text1.setStyle("-fx-font:normal  20px 'IMPACT'  ");
+        text2.setStyle("-fx-font:normal  20px 'IMPACT'  ");
+        text3.setStyle("-fx-font:normal  20px 'IMPACT'  ");
+        text4.setStyle("-fx-font:normal  20px 'IMPACT'  ");
+        text5.setStyle("-fx-font:normal  20px 'IMPACT'  ");
+
+        text1.setFill(Color.WHITE);
+        text2.setFill(Color.WHITE);
+        text3.setFill(Color.WHITE);
+        text4.setFill(Color.WHITE);
+        text5.setFill(Color.WHITE);
+
+        TextField username = new TextField();
+        TextField email = new TextField();
+        TextField password = new TextField();
+        TextField phone = new TextField();
+        TextField loc = new TextField();
+
+        Button signUp = new Button("Sign Up");
+
+        GridPane s2 = new GridPane();
+        s2.add(text1, 0, 0);
+        s2.add(text2, 0, 1);
+        s2.add(text3, 0, 2);
+        s2.add(text4, 0, 3);
+        s2.add(text5, 0, 4);
+        s2.add(username, 1, 0);
+        s2.add(email, 1, 1);
+        s2.add(password, 1, 2);
+        s2.add(phone, 1, 3);
+        s2.add(loc, 1, 4);
+        s2.add(signUp, 1,5 );
+
+        s2.setHgap(5);
+        s2.setVgap(7);
+
+        Image image = new Image("https://www.apple.com/newsroom/images/environments/stores/Apple_Changsha_NewStore_09012021.jpg.og.jpg?202310121158");
+        ImageView view = new ImageView(image);
+        view.setPreserveRatio(true);
+        view.setFitWidth(stage.getWidth());
+        view.setFitHeight(stage.getHeight());
+
+        Rectangle background = new Rectangle(400, 200, Color.rgb(0, 0, 0, 0.75));
+        background.setArcWidth(20);
+        background.setArcHeight(20);
+
+        StackPane layout = new StackPane();
+        layout.getChildren().addAll(view, background, s2);
+        s2.setAlignment(Pos.CENTER);
+
+        String filepath = "customer.dat";
+        Database d = new Database(filepath);
+        d.start_write();;
+
+        signUp.setOnAction(e -> {
+            ArrayList<Customer> customerList = new ArrayList<>();
+
+            String us = username.getText();
+            String mail = email.getText();
+            String pass = password.getText();
+            String num = phone.getText();
+            String locc = loc.getText();
+
+            Customer c = new Customer(3211, us, mail, pass, num, locc, UserType.Customer);
+            System.out.println("Username: " + us);
+            System.out.println("Email: " + mail);
+            System.out.println("Password: " + pass);
+            System.out.println("phone: " + num);
+            System.out.println("Location: " + locc);
+
+            customerList.add(c);
+            try {
+                d.insert(customerList);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            try {
+                d.close_write();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            d.displayContent();
+
+        });
+
+        scene3 = new Scene(layout);
         return scene3;
     }
 
-    private Scene SellerScene() {
+    private Scene SellerScene() throws IOException {
         Text text1 = new Text(" username:");
-        Text text2 = new Text(" password:");
-        VBox h1 = new VBox(text1, text2);
-        scene2 = new Scene(h1);
+        Text text2 = new Text("     email: ");
+        Text text3 = new Text("password:");
+
+        text1.setStyle("-fx-font:normal  20px 'IMPACT'  ");
+        text2.setStyle("-fx-font:normal  20px 'IMPACT' ");
+        text3.setStyle("-fx-font:normal  20px 'IMPACT'  ");
+
+        text1.setFill(Color.WHITE);
+        text2.setFill(Color.WHITE);
+        text3.setFill(Color.WHITE);
+
+        TextField username = new TextField();
+        TextField email = new TextField();
+        TextField password = new TextField();
+
+        Button signUp = new Button("Sign Up");
+
+        GridPane s3 = new GridPane();
+        s3.add(text1, 0, 0);
+        s3.add(text2, 0, 1);
+        s3.add(text3, 0,2);
+        s3.add(username, 1, 0);
+        s3.add(email, 1,1 );
+        s3.add(password, 1, 2);
+        s3.add(signUp, 1, 3);
+
+        s3.setHgap(5);
+        s3.setVgap(7);
+
+        Image image = new Image("https://www.apple.com/newsroom/images/environments/stores/Apple_Changsha_OpensSaturday_09012021_big.jpg.slideshow-xlarge_2x.jpg");
+        ImageView view = new ImageView(image);
+        view.setPreserveRatio(true);
+        view.setFitWidth(stage.getMaxWidth());
+        view.setFitHeight(stage.getHeight());
+
+        Rectangle background = new Rectangle(400, 200, Color.rgb(0, 0, 0, 0.75));
+        background.setArcWidth(20);
+        background.setArcHeight(20);
+
+        StackPane layout = new StackPane();
+        layout.getChildren().addAll(view, background, s3);
+        s3.setAlignment(Pos.CENTER);
+
+        String filepath = "seller.dat";
+        Database d = new Database(filepath);
+        d.start_write();
+
+        signUp.setOnAction(e -> {
+            ArrayList<Seller> sellerList = new ArrayList<>();
+
+            String us = username.getText();
+            String mail = email.getText();
+            String pass = password.getText();
+
+            Seller s = new Seller(4321, us, mail, pass, UserType.Seller);
+            System.out.println("Username: " + us);
+            System.out.println("Email: " + mail);
+            System.out.println("Password: " + pass);
+
+            sellerList.add(s);
+            try {
+                d.insert(sellerList);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            try {
+                d.close_write();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            d.displayContent();
+        });
+
+        scene4 = new Scene(layout);
         return scene4;
     }
 
 
     public void switchScenes(Scene scene) {
+
         stage.setScene(scene);
     }
 }
