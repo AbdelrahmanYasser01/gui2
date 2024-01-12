@@ -84,8 +84,12 @@ public class main {
 
 
             String orderpath = "Order.dat";
+
+
             Database m = new Database(orderpath);
+
             m.displayContent();
+
         }catch (IOException e) {
             e.printStackTrace();
         }

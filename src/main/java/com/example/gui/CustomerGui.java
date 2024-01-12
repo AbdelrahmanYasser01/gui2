@@ -254,8 +254,8 @@ public class CustomerGui extends Application  {
         pane.getChildren().addAll(b);
         return pane;
     }
-    public void fillarraylist(ArrayList<Product> list) {
-        String fileName = "products.dat";
+    public void fillarraylist(ArrayList<Order> list) {
+        String fileName = "Order.dat";
         File file = new File(fileName);
         if (!file.exists()) {
             System.out.println("File not found: " + fileName);
@@ -264,7 +264,7 @@ public class CustomerGui extends Application  {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             while (true) {
                 try {
-                    list.addAll((ArrayList<Product>) ois.readObject());
+                    list.addAll((ArrayList<Order>) ois.readObject());
                 } catch (EOFException e) {
                     break; // End of file reached, exit the loop
                 }
@@ -309,8 +309,9 @@ public class CustomerGui extends Application  {
     }
     public void checkoutStage(ObservableList<Product> products,String Quantity , String amount) throws IOException {
         String orderFilePath = "Order.dat";
+
         Database orderdb = new Database(orderFilePath);
-        orderdb.start_write();
+
 
         Stage checkoutStage = new Stage();
         checkoutStage.initModality(Modality.APPLICATION_MODAL); // Block events to other windows
@@ -334,15 +335,18 @@ public class CustomerGui extends Application  {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("ORDER CONFIRMED");
         alert.setContentText("your order has been recieved and is being processed");
-
+        ArrayList<Order> orderlists = new ArrayList<>();
+        fillarraylist(orderlists);
+        System.out.println(orderlists);
        btn.setOnAction(e->{
            ArrayList<Product> shoppingcart = new ArrayList<>(products);
-        ArrayList<Order> orderlists = new ArrayList<>();
+
            Order order = new Order(1111,0111,name.getText(),Quantity,amount,location.getText(),phone.getText(),email.getText(),shoppingcart);
            orderlists.add(order);
            try {
-        orderdb.insert(orderlists);
-        orderdb.close_write();
+               orderdb.start_write();
+               orderdb.insert(orderlists);
+               orderdb.close_write();
            } catch (IOException ex) {
                throw new RuntimeException(ex);
            }
