@@ -1,16 +1,19 @@
 package com.example.gui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Order {
+public class Order implements Serializable {
+    private static final long serialVersionUID = 8549695678159894382L;
+
     public
     int orderId ;
     int customerId;
     ArrayList<Product> Products = new ArrayList<>();
     ArrayList<String> details;
-    double Totalamount;
-    int Quantity ;
+    String Totalamount;
+    String Quantity ;
     int ProductId;
     String location;
     String Phonenumber;
@@ -18,7 +21,7 @@ public class Order {
     String name;
     Date StartDate = new Date();
     Date EndDate = new Date();
-    Order(int id , int customerId , String name ,int Quantity , double totalamount , String location , String phone , String email ,ArrayList<Product> products  ){
+    Order(int id , int customerId , String name ,String Quantity , String totalamount , String location , String phone , String email ,ArrayList<Product> products  ){
         this.orderId=id;
         this.customerId=customerId;
         this.name=name;
@@ -40,5 +43,18 @@ public class Order {
     void PlaceOrder(){
         // confirm order -> go to payment
     }
-    //ay betngan
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + orderId +
+                ", customerId=" + customerId +
+                ", name='" + name + '\'' +
+                ", quantity='" + Quantity + '\'' +
+                ", totalAmount='" + Totalamount + '\'' +
+                ", location='" + location + '\'' +
+                ", phone='" + Phonenumber + '\'' +
+                ", email='" + Email + '\'' +
+                ", products=" + Products +
+                '}';
+    }
 }

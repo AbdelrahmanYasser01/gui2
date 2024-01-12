@@ -1,6 +1,8 @@
 package com.example.gui;
 
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +35,7 @@ public class HelloApplication extends Application {
         launch();
     }
 
+
     @Override
     public void start(Stage stage) throws IOException {
         AdminGui admin = new AdminGui();
@@ -44,6 +47,7 @@ public class HelloApplication extends Application {
         Text text4 = new Text(" usertype :");
 
         TextField usertext=new TextField();
+
         PasswordField passtext = new PasswordField();
 
         ObservableList<String> o;
@@ -63,6 +67,7 @@ public class HelloApplication extends Application {
             //admin.start(stage));
             String selectedRole = (String)cbx.getValue();
             String username = usertext.getText();
+
             String pass = passtext.getText();
             h1.fillarraylist(adminslist);
             h1.fillarraylist2(customerlist);

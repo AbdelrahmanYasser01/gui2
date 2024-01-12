@@ -15,14 +15,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.ArrayList;
 
 public class CustomerGui extends Application  {
@@ -59,17 +57,28 @@ public class CustomerGui extends Application  {
 
         //Cart tab
         Tab image2tab = new Tab("Cart");
-        ImageView image22 = new ImageView(image2);
-        image22.setFitWidth(image.getWidth());
-        image22.setFitHeight(image.getHeight());
-        StackPane p1 = new StackPane();
         image2tab.setClosable(false);
         image2tab.setContent(createDisplayCart(p));
 
 
+        // Customer orders details
+        Tab image3tab = new Tab("Profile");
+        image3tab.setClosable(false);
+        HelloApplication g = new HelloApplication();
+        image3tab.setContent(createdisplaydetails());
 
-        tabPane.getTabs().addAll(imageTab,image2tab);
-        Scene scene = new Scene(tabPane);
+
+        tabPane.getTabs().addAll(imageTab,image2tab,image3tab);
+        tabPane.setStyle("-fx-background-color: transparent;");
+        Image imagetrial = new Image("https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.og.jpg?202311010232"); // Assuming the image file is in the project directory
+        Image img = new Image("https://www.apple.com/newsroom/images/live-action/new-store-opening/Apple-Saket-Delhi-India-media-preview-interior_big.jpg.large_2x.jpg");
+        ImageView imageView = new ImageView(img);
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(1200);
+        imageView.setFitHeight(630);
+        StackPane s = new StackPane();
+        s.getChildren().addAll(imageView,tabPane);
+        Scene scene = new Scene(s);
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -172,7 +181,7 @@ public class CustomerGui extends Application  {
         // Add UI components for adding products (e.g., TextFields, Buttons, etc.)
         Rectangle background = new Rectangle(800, 800, Color.rgb(0, 0, 0, 0.2));
 
-        Productcon.getChildren().addAll(imgvw,Addingprod);
+        Productcon.getChildren().addAll(Addingprod);
 
         return Productcon;
     }
@@ -183,7 +192,8 @@ public class CustomerGui extends Application  {
         Label price = new Label();
         Label Totprice = new Label();
         Label ShopCart = new Label("Your Shopping Cart :");
-        Label removeitem = new Label("Double tab to remove");
+        ShopCart.setFont(new Font(20.0));
+        Label removeitem = new Label(" tab to remove");
         Button checkout = new Button("Proceed to checkout");
 
         // Add UI components for displaying products (e.g., ListView, TableView, etc.)
@@ -191,14 +201,15 @@ public class CustomerGui extends Application  {
         displaycartdetails.add(ShopCart,0,0);
         displaycartdetails.add(listView,0,1);
         displaycartdetails.add(price,0,2);
-        Totprice.setText(calculateTotalAmount(products));
+
         displaycartdetails.add(Totprice,0,3);
         displaycartdetails.add(cancelCart,2,3);
-        displaycartdetails.add(removeitem,4,0);
+        displaycartdetails.add(removeitem,3,0);
         displaycartdetails.add(checkout,4,3);
         products.addListener((ListChangeListener<Product>) change -> {
-            Totprice.setText(calculateTotalAmount(products));
-           price.setText(calculatequantity(products));
+            Totprice.setText(String.format("Total Amount: %.2f EGP", calculateTotalAmount(products)));
+           price.setText( String.format("Quantity: %d", calculatequantity(products)));
+
         });
         cancelCart.setOnAction(event->{
             products.clear();
@@ -222,15 +233,26 @@ public class CustomerGui extends Application  {
             });
         });
         checkout.setOnAction(event -> {
-            Stage stage;
-
-           // checkoutStage(products);
+           // todo here
+            try {
+                checkoutStage(products,price.getText(),Totprice.getText());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
          displaycartdetails.setAlignment(Pos.CENTER);
 
         displayProductsContent.getChildren().add(displaycartdetails);
 
         return displayProductsContent;
+    }
+    private StackPane createdisplaydetails(){
+        Label user = new Label("hello");
+        Label user2 = new Label();
+        StackPane pane = new StackPane();
+        VBox b = new VBox(user,user2);
+        pane.getChildren().addAll(b);
+        return pane;
     }
     public void fillarraylist(ArrayList<Product> list) {
         String fileName = "products.dat";
@@ -270,40 +292,68 @@ public class CustomerGui extends Application  {
         alert.setContentText(content);
         alert.showAndWait();
     }
-    public String calculateTotalAmount(ObservableList<Product> originalList) {
+    public double calculateTotalAmount(ObservableList<Product> originalList) {
         double totalAmount = 0;
 
         // Iterate through the list and sum up the prices
         for (Product product : originalList) {
             totalAmount += product.getPrice();
         }
-        String formattedTotalAmount = String.format("Total Amount: %.2f EGP", totalAmount);
-        return formattedTotalAmount;
+        //String formattedTotalAmount = String.format("Total Amount: %.2f EGP", totalAmount);
+        return totalAmount;
     }
-    public String calculatequantity(ObservableList<Product> originallist){
+    public int calculatequantity(ObservableList<Product> originallist){
         int countquantity = originallist.size(); // Use the size() method to get the number of elements in the list
-        String counterstring = String.format("Quantity: %d", countquantity);
-        return counterstring;
+       // String counterstring = String.format("Quantity: %d", countquantity);
+        return countquantity;
     }
-    public void checkoutStage(ObservableList<Product> products,int Quantity , double amount){
+    public void checkoutStage(ObservableList<Product> products,String Quantity , String amount) throws IOException {
+        String orderFilePath = "Order.dat";
+        Database orderdb = new Database(orderFilePath);
+        orderdb.start_write();
+
         Stage checkoutStage = new Stage();
         checkoutStage.initModality(Modality.APPLICATION_MODAL); // Block events to other windows
         checkoutStage.initStyle(StageStyle.UTILITY);
-        // arraylist customerdetails / shopping cart =
+
+
         TextField location = new TextField();
         TextField email = new TextField();
         TextField  phone = new TextField();
         TextField name = new TextField();
-        Label location1 = new Label();
-        Label email1 = new Label();
-        Label  phone1 = new Label();
-        Label name1 = new Label();
-        ArrayList<Product> shoppingcart = new ArrayList<>(products);
-        //Todo:continueeee
-        Order order = new Order(1111,0111,name.getText(),Quantity,amount,location.getText(),phone.getText(),email.getText(),shoppingcart);
-        Label hello = new Label ("hell0");
-        checkoutStage.setScene(new Scene(hello));
+        VBox detail = new VBox(name,email,phone,location);
+        Label location1 = new Label("location :");
+        Label email1 = new Label("email :");
+        Label  phone1 = new Label("phone :");
+        Label name1 = new Label("name :");
+        Button btn = new Button("confirm");
+        VBox detail2 = new VBox(name1,email1,phone1,location1);
+        HBox detail3 = new HBox(detail2,detail,btn);
+        detail3.setAlignment(Pos.CENTER);
 
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("ORDER CONFIRMED");
+        alert.setContentText("your order has been recieved and is being processed");
+
+       btn.setOnAction(e->{
+           ArrayList<Product> shoppingcart = new ArrayList<>(products);
+        ArrayList<Order> orderlists = new ArrayList<>();
+           Order order = new Order(1111,0111,name.getText(),Quantity,amount,location.getText(),phone.getText(),email.getText(),shoppingcart);
+           orderlists.add(order);
+           try {
+        orderdb.insert(orderlists);
+        orderdb.close_write();
+           } catch (IOException ex) {
+               throw new RuntimeException(ex);
+           }
+           alert.showAndWait().ifPresent(result -> {
+               checkoutStage.close();
+           });
+
+           orderdb.displayContent();
+       });
+        Scene scene = new Scene(detail3);
+        checkoutStage.setScene(scene);
         checkoutStage.showAndWait();
     }
 }

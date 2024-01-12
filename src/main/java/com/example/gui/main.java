@@ -81,6 +81,11 @@ public class main {
             customerdatabase.insert(customer);
             customerdatabase.close_write();
             customerdatabase.displayContent();
+
+
+            String orderpath = "Order.dat";
+            Database m = new Database(orderpath);
+            m.displayContent();
         }catch (IOException e) {
             e.printStackTrace();
         }
