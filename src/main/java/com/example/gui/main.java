@@ -79,9 +79,10 @@ public class main {
             customer.add(c1);
             customer.add(c2);
             customerdatabase.insert(customer);
-            customerdatabase.close_write();
-            customerdatabase.displayContent();
-
+           customerdatabase.close_write();
+           customerdatabase.displayContent();
+//
+            System.out.println( "hello");
 
             String orderpath = "Order.dat";
 

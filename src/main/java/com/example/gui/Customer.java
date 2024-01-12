@@ -227,7 +227,7 @@ public class Customer extends User implements Serializable{
         return this.getid() + "," + this.CustomerName + "," + this.address + "," + this.Email + "," + this.Phonenum + "," + this.password;
     } // text files
 
-    public static int generateRandomID() {
+    public static int GenerateRandomID() {
 
         int min = 1000;
         int max = 9999;
