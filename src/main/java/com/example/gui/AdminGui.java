@@ -23,6 +23,8 @@ public class AdminGui extends Application {
     @Override
     public void start(Stage primaryStage)  {
         ProductsGUI prod = new ProductsGUI();
+        customerui cust = new customerui();
+        sellerui seller = new sellerui();
         Text text1 = new Text("ADMIN MENU");
         // label / 4 btn : view customer , seller ,product , add product
         Button bt1 = new Button("view products");
@@ -34,7 +36,21 @@ public class AdminGui extends Application {
             }
         });
         Button bt2 = new Button("view customers");
+        bt2.setOnAction(e->{
+            try {
+                cust.start(primaryStage);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         Button bt3 = new Button("view sellers") ;
+        bt3.setOnAction(e->{
+            try {
+                seller.start(primaryStage);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         VBox adminmenu = new VBox(10,bt1,bt2,bt3);
         adminmenu.setAlignment(Pos.CENTER);
