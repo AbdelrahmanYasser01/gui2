@@ -129,5 +129,12 @@ public class Seller extends User implements Serializable {
     public void launchgui(){
         SellerGui.launch(SellerGui.class);
     }
+
+    public static int GenerateRandomID() {
+
+        int min = 1000;
+        int max = 9999;
+        return (int) (Math.random() * (max - min + 1) + min);
+    }
     //comment
 }
