@@ -77,47 +77,7 @@ public class Admin extends User implements Serializable {
         return null;
     }
 
-    public void addProduct() {
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Please Enter product ID:");
-        int id = scanner.nextInt();
-
-        System.out.println("Please Enter product name:");
-        String name = scanner.next();
-
-        System.out.println("Please Enter product price:");
-        double price = scanner.nextDouble();
-
-        System.out.println("Please Enter product com.example.gui.Seller:");
-        String color = scanner.next();
-
-        System.out.println("Please Enter product quantity:");
-        int quantity = scanner.nextInt();
-
-
-        Product newProduct = new Product(id, name, price);
-
-        for (Product existingProduct : products) {
-            if (existingProduct.getId() == newProduct.getId() &&
-                    existingProduct.getName().equals(newProduct.getName()) &&
-                    existingProduct.getPrice() == newProduct.getPrice() &&
-                    existingProduct.getSeller().equals(newProduct.getSeller())) {
-
-                existingProduct.setQuantity(existingProduct.getQuantity() + newProduct.getQuantity());
-
-                System.out.println("Existing product found. Quantity updated.");
-                return;
-            }
-        }
-
-        products.add(newProduct);
-        newProduct.setQuantity(quantity);
-
-
-        System.out.println("Thank You!! com.example.gui.Product added successfully.");
-
-    }
     //________________________________________________________________________________
     //________________________remove user and product_________________________________
     //________________________________________________________________________________
@@ -196,95 +156,7 @@ public class Admin extends User implements Serializable {
     }
 
 
-    public void editProduct() {
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Please Enter the ID of the product to edit:");
-        int productId = scanner.nextInt();
-
-        boolean found = false;
-        for (Product product : products) {
-            if (product.getId() == productId) {
-                System.out.println("Please Enter new name (current is: " + product.getName() + "):");
-                String newName = scanner.next();
-                product.setName(newName);
-
-                System.out.println("Please Enter new price (current is: " + product.getPrice() + "):");
-                double newPrice = scanner.nextDouble();
-                product.setPrice(newPrice);
-
-                System.out.println("current supplier is: " + product.getSeller() + "):");
-
-                //___________________ID__________________________________________
-                System.out.println(" Please Enter new supplier ID:  ");
-                int id = scanner.nextInt();
-                product.getSeller().setSellerId(id);
-
-                //__________________pass_________________________________________
-
-                System.out.println(" Please Enter new supplier Password:  ");
-                String password = scanner.next();
-                product.getSeller().setPassword(password);
-
-                //__________________name_________________________________________
-
-                System.out.println(" Please Enter new supplier name:  ");
-                String sellerName = scanner.next();
-                product.getSeller().setSellerName(sellerName);
-
-                //__________________email________________________________________
-
-                System.out.println(" Please Enter new supplier email:  ");
-                String email1 = scanner.next();
-                product.getSeller().setEmail(email);
-
-                //_________________date start____________________________________
-
-                System.out.println(" Please Enter new supplier date start:  ");
-                String Start = scanner.next();
-                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-                try {
-                    Date startDate = date.parse(Start);
-                    product.getSeller().setStartDate(startDate);
-                }
-                catch (ParseException e) {
-                    System.err.println("Invalid date format. Please enter date in yyyy-MM-dd format.");
-
-                }
-
-                //_______________date end________________________________________
-
-                System.out.println(" Please Enter new supplier date end:  ");
-                String End = scanner.next();
-                SimpleDateFormat date1 = new SimpleDateFormat("yyyy-MM-dd");
-                try {
-                    Date endDate = date.parse(End);
-                    product.getSeller().setStartDate(endDate);
-                }
-                catch (ParseException e) {
-                    System.err.println("Invalid date format. Please enter date in yyyy-MM-dd format.");
-
-                }
-
-                //_____________Quantity__________________________________________
-
-                System.out.println("Please Enter new quantity (current is: " +
-                        product.getQuantity() + "):");
-
-                int newQuantity = scanner.nextInt();
-                product.setQuantity(newQuantity);
-
-                found = true;
-                break;
-            }
-        }
-
-        if (found) {
-            System.out.println("Thank You!! com.example.gui.Product edited successfully.");
-        } else {
-            System.out.println("Sorry! com.example.gui.Product not found.");
-        }
-    }
 
 
     public void listUser(){

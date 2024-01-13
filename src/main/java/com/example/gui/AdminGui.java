@@ -7,10 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -66,16 +63,28 @@ public class AdminGui extends Application {
         adminbackground.setArcWidth(20);
         adminbackground.setArcHeight(20);
 
-        StackPane layout = new StackPane();
-        layout.getChildren().addAll(imageView,adminbackground,adminmenu);
 
 
         /*layout.setMinSize(400,200);
         layout.setPadding(new Insets(10,10,10,10));
         layout.setMaxWidth(Region.USE_PREF_SIZE);
         layout.setMaxHeight(Region.USE_PREF_SIZE);*/
+        BorderPane root = new BorderPane();
+        HelloApplication h = new HelloApplication();
+        Button prevbtn = new Button("previous page");
+        prevbtn.setAlignment(Pos.BOTTOM_LEFT);
+        prevbtn.setOnAction(e->{
+            try {
+                h.start(primaryStage);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        BorderPane.setAlignment(prevbtn, Pos.BOTTOM_LEFT);
+        root.setBottom(prevbtn);
 
-
+        StackPane layout = new StackPane();
+        layout.getChildren().addAll(imageView,adminbackground,adminmenu,root);
         Scene scene = new Scene(layout);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Admin menu");

@@ -198,15 +198,22 @@ public class customerui extends Application {
             db.displayContent();
 
         });
-        HBox back = new HBox(10,listview,right);
+
+
+        AdminGui g = new AdminGui();
+        Button prevbtn = new Button("previous page");
+        prevbtn.setAlignment(Pos.BOTTOM_LEFT);
+        prevbtn.setOnAction(e->{
+            g.start(primaryStage);
+        });
+
+       VBox v = new VBox(listview,prevbtn);
+       v.setAlignment(Pos.CENTER);
+        HBox back = new HBox(10,v,right);
+
+
         StackPane pane = new StackPane();
         pane.getChildren().addAll(imageView,back);
-
-
-
-
-
-
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         primaryStage.show();

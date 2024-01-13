@@ -6,10 +6,13 @@ import java.util.Date;
 import java.util.List;
 
 public class Seller extends User implements Serializable {
+    private static final long serialVersionUID = -8580606279018224531L;
+
     private
     String sellerName;
     int sellerid;
     String email;
+    String password ;
     Date StartDate = new Date();
     Date EndDate = new Date();
     List<Product> products;
@@ -19,12 +22,20 @@ public class Seller extends User implements Serializable {
 
     public Seller(int id , String sellerName, String email, String password, UserType user) {
         super(id,password,user);
+        this.sellerid=id;
         this.sellerName = sellerName;
         this.email = email;
-
+        this.password = password;
     }
 
 
+    public int getSellerid() {
+        return sellerid;
+    }
+
+    public void setSellerid(int sellerid) {
+        this.sellerid = sellerid;
+    }
 
     public String getSellerName() {
         return sellerName;
@@ -42,13 +53,13 @@ public class Seller extends User implements Serializable {
         this.sellerid = sellerid;
     }
 
-    @Override
-    public String getPassword() {
+
+    public String getpassword() {
         return password;
     }
 
-    @Override
-    public void setPassword(String password) {
+
+    public void setpassword(String password) {
         this.password = password;
     }
 

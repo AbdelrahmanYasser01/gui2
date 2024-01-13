@@ -9,10 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -73,6 +70,19 @@ public class CustomerGui extends Application  {
         image3tab.setContent(createdisplaydetails());
 
 
+        BorderPane root = new BorderPane();
+        HelloApplication h = new HelloApplication();
+        Button prevbtn = new Button("previous page");
+        prevbtn.setAlignment(Pos.BOTTOM_LEFT);
+        prevbtn.setOnAction(e->{
+            try {
+                h.start(primaryStage);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        BorderPane.setAlignment(prevbtn, javafx.geometry.Pos.BOTTOM_RIGHT);
+        root.setBottom(prevbtn);
         tabPane.getTabs().addAll(imageTab,image2tab,image3tab);
         tabPane.setStyle("-fx-background-color: transparent;");
         Image imagetrial = new Image("https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.og.jpg?202311010232"); // Assuming the image file is in the project directory
@@ -82,7 +92,7 @@ public class CustomerGui extends Application  {
         imageView.setFitWidth(1200);
         imageView.setFitHeight(630);
         StackPane s = new StackPane();
-        s.getChildren().addAll(imageView,tabPane);
+        s.getChildren().addAll(imageView,tabPane,root);
         Scene scene = new Scene(s);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -460,6 +470,25 @@ public class CustomerGui extends Application  {
         Scene scene = new Scene(detail3);
         checkoutStage.setScene(scene);
         checkoutStage.showAndWait();
+    }
+    public void fillarraylistp(ArrayList<Product> list) {
+        String fileName = "products.dat";
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File not found: " + fileName);
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            while (true) {
+                try {
+                    list.addAll((ArrayList<Product>) ois.readObject());
+                } catch (EOFException e) {
+                    break; // End of file reached, exit the loop
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

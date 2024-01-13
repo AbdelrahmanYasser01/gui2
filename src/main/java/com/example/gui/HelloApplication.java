@@ -30,17 +30,22 @@ import java.util.ArrayList;
 
 
 public class HelloApplication extends Application {
+
+
     public static void main(String[] args) {
 
         launch();
     }
+    String username ;
+
 
 
     @Override
     public void start(Stage stage) throws IOException {
         AdminGui admin = new AdminGui();
         CustomerGui customer = new CustomerGui();
-        SellerGui seller = new SellerGui();
+        sellerui seller = new sellerui();
+
         Text text1 = new Text(" username:");
         Text text2 = new Text(" password:");
         Text text3 = new Text("or if you don't have an account");
@@ -102,9 +107,14 @@ public class HelloApplication extends Application {
             }
             else if ("Seller".equals(selectedRole)){
                 for (Seller admin6 : Sellerlist) {
-                    if (username.equals(admin6.getSellerName()) ) {
-                        // search in file if pass and username
+                    if (username.equals(admin6.getSellerName())) {
+
                         System.out.println("yes sir");
+                        try {
+                            seller.start(stage);
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
+                        }
 
                     }
                 }
@@ -191,6 +201,7 @@ public class HelloApplication extends Application {
 
 
     }
+
 
     public static Boolean searchPerson(ArrayList<Admin> admins, String name, String password) {
         for (Admin person : admins) {

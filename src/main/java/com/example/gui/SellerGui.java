@@ -267,5 +267,4 @@ public class SellerGui extends Application {
             e.printStackTrace();
         }
     }
-    //comment
 }

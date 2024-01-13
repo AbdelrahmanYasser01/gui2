@@ -71,7 +71,19 @@ public class ProductsGUI extends Application implements Serializable  {
                 addPRICE.setFill(Color.WHITE);
                 HBox addpart2 = new HBox(addPRICE, pricefield);
                 addpart2.setAlignment(Pos.CENTER);
-                VBox addproduct = new VBox(15, addpart, addpart2 , btn2);
+                Text addsname = new Text("ADD SELLER NAME");
+                TextField addsfield = new TextField("seller");
+                addsfield.setOpacity(0.2);
+                addsname.setStyle("-fx-font:normal  20px 'IMPACT' ");
+                addsname.setFill(Color.WHITE);
+                HBox addpart3 = new HBox(addsname, addsfield);
+                Text addQuantity = new Text("ADD PRODUCT QUANTITY");
+                TextField addqfield = new TextField("quantity");
+                addqfield.setOpacity(0.2);
+                addQuantity.setStyle("-fx-font:normal  20px 'IMPACT' ");
+                addQuantity.setFill(Color.WHITE);
+                HBox addpart4 = new HBox(addQuantity, addqfield);
+                VBox addproduct = new VBox(15, addpart, addpart2 ,addpart3,addpart4, btn2);
                 addproduct.setAlignment(Pos.CENTER);
                 addPane.getChildren().addAll(addBackground, addproduct);
 
@@ -143,7 +155,10 @@ public class ProductsGUI extends Application implements Serializable  {
                    String name = addfield.getText();
                    String price = pricefield.getText();
                    double value = Double.parseDouble(price);
-                   product = new Product(id,name,value);
+                   String seller = addsfield.getText();
+                   String quan = addqfield.getText();
+                   int quantity = Integer.parseInt(quan);
+                   product = new Product(id,name,value,seller,quantity);
                    products.add(product);
                         try {
                                 db.start_write();

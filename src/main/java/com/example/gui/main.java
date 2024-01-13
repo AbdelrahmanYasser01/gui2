@@ -18,16 +18,16 @@ public class main {
             Database productdatabase = new Database(productFilepath);
             productdatabase.start_write();
 
-            Product p1 = new Product(0001,"iphone 15 Pro",100000.0);
-            Product p2 = new Product(0002,"airpods 2",10000.0);
-            Product p3 = new Product(0003,"watch series 9",20000.0);
-            Product p4 = new Product(0004,"iPad mini",50000.0);
-            Product p5 = new Product(0005,"Macbook",15000.0);
-            Product p6 = new Product(0006,"HomePod",10000.0);
-            Product p7 = new Product(0007,"IMac",200000.0);
-            Product p8 = new Product(8,"IPad",70000.0);
-            Product p9 = new Product(9,"AirPod Max",30000.0);
-            Product p10 = new Product(9,"iPhone 15",90000.0);
+            Product p1 = new Product(7890,"iphone 15 Pro",100000.0,"malak",5);
+            Product p2 = new Product(1324,"airpods 2",10000.0,"malak",10);
+            Product p3 = new Product(7233,"watch series 9",20000.0,"malak",7);
+            Product p4 = new Product(2909,"iPad mini",50000.0,"abdulrahman",10);
+            Product p5 = new Product(1098,"Macbook",15000.0,"abdulrahman",15);
+            Product p6 = new Product(4657,"HomePod",10000.0,"abdulrahman",19);
+            Product p7 = new Product(8345,"IMac",200000.0,"abdulrahman",5);
+            Product p8 = new Product(7970,"IPad",70000.0,"abdulrahman",20);
+            Product p9 = new Product(1342,"AirPod Max",30000.0,"malak",13);
+            Product p10 = new Product(6087,"iPhone 15",90000.0,"malak",17);
 
             ArrayList<Product> prodlist = new ArrayList<>();
             prodlist.add(p1);
@@ -62,7 +62,7 @@ public class main {
             Database sellerdatabase = new Database(sellerfilepath);
             //sellerdatabase.start_write();
             Seller s1 = new Seller(0001,"malak","malak@gmail","password",UserType.Seller);
-            Seller s2 = new Seller(0002,"moka","malak@gmail","word",UserType.Seller);
+            Seller s2 = new Seller(0002,"abdulrahman","abdulrahman@gmail","word",UserType.Seller);
             ArrayList<Object> sellerlist = new ArrayList<>();
             sellerlist.add(s1);
             sellerlist.add(s2);

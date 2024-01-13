@@ -12,18 +12,20 @@ public class Product implements Serializable {
     private String productName;
     private double price;
     private int quantity;
-    public String path;
-    private Seller seller;
-    private Date StartDate = new Date();
-    private Date EndDate = new Date();
+
+    private String seller;
+
+
 
     public Product() {
     }
 
-    public Product(int productID, String productName, double price){
+    public Product(int productID, String productName, double price , String seller ,int Quantity){ // todo: hoteh quantity // seller name
         this.productID = productID;
         this.productName = productName;
         this.price = price;
+        this.seller = seller;
+        this.quantity=Quantity;
     }
     int getId(){
         productID = GenerateRandomID();
@@ -35,9 +37,7 @@ public class Product implements Serializable {
     Double getPrice(){
         return price;
     }
-    Seller getSeller(){
-        return seller;
-    }
+
     int getQuantity(){
         return quantity;
     }
@@ -50,41 +50,46 @@ public class Product implements Serializable {
     void setPrice(Double Price){
         price=Price;
     }
-    public void setSeller(int id, String password, String sellerName, String email1, String start, String end) {
 
-    }
     void setQuantity(int Quantity){
         quantity=Quantity;
     }
 
-    public void numOfProductsSold() {
-
+    public String getSeller() {
+        return seller;
     }
-    public void bestSellerProduct() {
 
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
-    public void mostRevenueMadeFromProduct() {
 
-    }
+
 
     //Converts a string line coming from the txt file into an object of product.
-    public static Product parse(String data){
+    public static Product parse(String data) {
         String[] parts = data.split(",");
 
-        if (parts.length < 3) {
+        if (parts.length < 5) {
             throw new IllegalArgumentException("Invalid data format: " + data);
         }
 
-        int productID = Integer.parseInt(parts[0].trim()); //casting from string to int
-        String productName = parts[1];
-        double price = Double.parseDouble(parts[2].trim()); //casting from string to double
+        try {
+            int productID = Integer.parseInt(parts[0].trim());
+            String productName = parts[1].trim();
+            double price = Double.parseDouble(parts[2].trim());
+            String sellerName = parts[3].trim();  // Adjusted index for sellerName
+            int quantity = Integer.parseInt(parts[4].trim());  // Adjusted index for quantity
 
-        return new Product(productID, productName, price);
+            return new Product(productID, productName, price, sellerName, quantity);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid numeric format in data: " + data, e);
+        }
     }
 
+
     @Override
-    public String toString(){
-        return this.productID+","+this.productName + ","+ this.price;
+    public String toString() {
+        return String.format("%d, %s, %.2f, %s, %d", productID, productName, price, seller, quantity);
     }
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
