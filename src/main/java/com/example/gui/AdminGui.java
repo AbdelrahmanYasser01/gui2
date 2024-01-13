@@ -24,7 +24,7 @@ public class AdminGui extends Application {
     public void start(Stage primaryStage)  {
         ProductsGUI prod = new ProductsGUI();
         customerui cust = new customerui();
-        sellerui seller = new sellerui();
+        SellerGui seller = new SellerGui();
         Text text1 = new Text("ADMIN MENU");
         // label / 4 btn : view customer , seller ,product , add product
         Button bt1 = new Button("view products");

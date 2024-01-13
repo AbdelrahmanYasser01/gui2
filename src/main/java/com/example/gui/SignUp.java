@@ -4,7 +4,9 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,8 +19,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class SignUp extends Application {
@@ -137,9 +140,9 @@ public class SignUp extends Application {
         s1.add(password, 1, 1);
         s1.add(email, 1, 2);
         s1.add(signUp, 1, 3);
-        //searchBack.setAlignment(Pos.CENTER);
 
-        //s1.setPadding(new Insets(10));
+
+
         s1.setHgap(5);
         s1.setVgap(7);
         Image image = new Image("https://images.macrumors.com/t/CYBGrcgOUFSPMWdwq-gEH4Mi_L4=/1600x/article-new/2017/04/applecampusatnight.jpg"); // Assuming the image file is in the project directory
@@ -158,35 +161,53 @@ public class SignUp extends Application {
 
 
 
+        ArrayList<Admin> adminarraylist = new ArrayList<>();
+        Admin a = new Admin();
+        fillarraylista(adminarraylist);
+
         String filepath = "admin.dat";
         Database d = new Database(filepath);
-        d.start_write();
-
+        System.out.println(adminarraylist);
+        d.displayContent();
         signUp.setOnAction(e -> {
             ArrayList<Admin> adminList = new ArrayList<>();
-
+            int ida = a.GenerateRandomID();
             String us = username.getText();
             String mail = email.getText();
             String pass = password.getText();
 
-            Admin a = new Admin(1233, us, mail, pass, UserType.Admin);
+            Admin a1 = new Admin(ida, us, mail, pass, UserType.Admin);
             System.out.println("Username: " + us);
             System.out.println("Email: " + mail);
             System.out.println("Password: " + pass);
+            adminarraylist.add(a1);
 
-            adminList.add(a);
             try {
-                d.insert(adminList);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            try {
+                d.start_write();
+                d.insert(adminarraylist);
                 d.close_write();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-            d.displayContent();
 
+            d.displayContent();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("signing in confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Thanks for signing in!");
+            alert.getButtonTypes().clear();
+            ButtonType goToHomepageButton = new ButtonType("go to Homepage");
+            alert.getButtonTypes().add(goToHomepageButton);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == goToHomepageButton) {
+                System.out.println("Navigating to homepage...");
+                AdminGui au = new AdminGui();
+                try {
+                    au.start(stage);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         });
 
         scene2 = new Scene(layout);
@@ -251,37 +272,55 @@ public class SignUp extends Application {
         s2.setAlignment(Pos.CENTER);
 
         String filepath = "customer.dat";
+        ArrayList<Customer> cust = new ArrayList<>();
+        fillarraylist(cust);
         Database d = new Database(filepath);
-        d.start_write();;
 
+        d.displayContent();
         signUp.setOnAction(e -> {
+            System.out.println("hey"+cust);
             ArrayList<Customer> customerList = new ArrayList<>();
-
+             int id = generateRandomID();
             String us = username.getText();
             String mail = email.getText();
             String pass = password.getText();
             String num = phone.getText();
             String locc = loc.getText();
 
-            Customer c = new Customer(3211, us, mail, pass, num, locc, UserType.Customer);
+            Customer c = new Customer(id, us, mail, pass, num, locc, UserType.Customer);
             System.out.println("Username: " + us);
             System.out.println("Email: " + mail);
             System.out.println("Password: " + pass);
             System.out.println("phone: " + num);
             System.out.println("Location: " + locc);
 
-            customerList.add(c);
+            cust.add(c);
+            System.out.println(cust);
             try {
-                d.insert(customerList);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            try {
+                d.start_write();
+                d.insert(cust);
                 d.close_write();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
             d.displayContent();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("signing in confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Thanks for signing in!");
+            alert.getButtonTypes().clear();
+            ButtonType goToHomepageButton = new ButtonType("go to Homepage");
+            alert.getButtonTypes().add(goToHomepageButton);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == goToHomepageButton) {
+                System.out.println("Navigating to homepage...");
+                CustomerGui cu = new CustomerGui();
+                try {
+                    cu.start(stage);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
 
         });
 
@@ -334,34 +373,54 @@ public class SignUp extends Application {
         layout.getChildren().addAll(view, background, s3);
         s3.setAlignment(Pos.CENTER);
 
+
+
+
+        ArrayList<Seller> sellerArrayList = new ArrayList<>();
+        fillarraylists(sellerArrayList);
         String filepath = "seller.dat";
         Database d = new Database(filepath);
-        d.start_write();
-
+        System.out.println(sellerArrayList);
         signUp.setOnAction(e -> {
-            ArrayList<Seller> sellerList = new ArrayList<>();
-
+            Seller s1 = new Seller();
+            int ids = s1.GenerateRandomID();
             String us = username.getText();
             String mail = email.getText();
             String pass = password.getText();
 
-            Seller s = new Seller(4321, us, mail, pass, UserType.Seller);
+            Seller s = new Seller(ids, us, mail, pass, UserType.Seller);
             System.out.println("Username: " + us);
             System.out.println("Email: " + mail);
             System.out.println("Password: " + pass);
 
-            sellerList.add(s);
+            sellerArrayList.add(s);
             try {
-                d.insert(sellerList);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            try {
+                d.start_write();
+                d.insert(sellerArrayList);
                 d.close_write();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+
             d.displayContent();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("signing in confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Thanks for signing in!");
+            alert.getButtonTypes().clear();
+            ButtonType goToHomepageButton = new ButtonType("go to Homepage");
+            alert.getButtonTypes().add(goToHomepageButton);
+            Optional<ButtonType> result = alert.showAndWait();
+//            if (result.isPresent() && result.get() == goToHomepageButton) {
+//                System.out.println("Navigating to homepage...");
+//                CustomerGui cu = new CustomerGui();
+//                try {
+//                    cu.start(stage);
+//                } catch (Exception ex) {
+//                    throw new RuntimeException(ex);
+//                }
+//            }
+
         });
 
         scene4 = new Scene(layout);
@@ -372,6 +431,63 @@ public class SignUp extends Application {
     public void switchScenes(Scene scene) {
 
         stage.setScene(scene);
+    }
+    public void fillarraylist(ArrayList<Customer> list) {
+        String fileName = "customer.dat";
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File not found: " + fileName);
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            while (true) {
+                try {
+                    list.addAll((ArrayList<Customer>) ois.readObject());
+                } catch (EOFException e) {
+                    break; // End of file reached, exit the loop
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void fillarraylista(ArrayList<Admin> list) {
+        String fileName = "admin.dat";
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File not found: " + fileName);
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            while (true) {
+                try {
+                    list.addAll((ArrayList<Admin>) ois.readObject());
+                } catch (EOFException e) {
+                    break; // End of file reached, exit the loop
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void fillarraylists(ArrayList<Seller> list) {
+        String fileName = "seller.dat";
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File not found: " + fileName);
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            while (true) {
+                try {
+                    list.addAll((ArrayList<Seller>) ois.readObject());
+                } catch (EOFException e) {
+                    break; // End of file reached, exit the loop
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public static int generateRandomID() {
         //  generate a random ID

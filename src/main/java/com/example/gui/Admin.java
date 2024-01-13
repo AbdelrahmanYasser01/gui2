@@ -1,6 +1,6 @@
 package com.example.gui;
 
-import java.io.Serializable;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -409,8 +409,26 @@ public class Admin extends User implements Serializable {
     public String toString() {
         return this.userId + "," + this.adminName + "," + this.email + "," + this.password;
     }
-
-    public static int generateRandomID() {
+    public void fillarraylist(ArrayList<Admin> list) {
+        String fileName = "admin.dat";
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File not found: " + fileName);
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            while (true) {
+                try {
+                    list.addAll((ArrayList<Admin>) ois.readObject());
+                } catch (EOFException e) {
+                    break; // End of file reached, exit the loop
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static int GenerateRandomID() {
         int min = 1000;
         int max = 9999;
         return (int) (Math.random() * (max - min + 1) + min);

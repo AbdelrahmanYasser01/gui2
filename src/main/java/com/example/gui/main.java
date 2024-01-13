@@ -46,7 +46,7 @@ public class main {
 
             String adminsfilepath = "admin.dat";
             Database admindatabase = new Database(adminsfilepath);
-            admindatabase.start_write();
+            //admindatabase.start_write();
             Admin a1 = new Admin(0001,"layla","layla@gmail.com","meshadra",UserType.Admin);
             Admin a2 = new Admin(0002,"nour","nour@gmail.com","aloyalayla",UserType.Admin);
             Admin a3 = new Admin(0003,"noureltanya","secondnour@gmail.com","gebtakhry",UserType.Admin);
@@ -54,32 +54,58 @@ public class main {
             admlist.add(a1);
             admlist.add(a2);
             admlist.add(a3);
-            admindatabase.insert(admlist);
-            admindatabase.close_write();
+            //admindatabase.insert(admlist);
+            //admindatabase.close_write();
             admindatabase.displayContent();
 
             String sellerfilepath = "seller.dat";
             Database sellerdatabase = new Database(sellerfilepath);
-            sellerdatabase.start_write();
+            //sellerdatabase.start_write();
             Seller s1 = new Seller(0001,"malak","malak@gmail","password",UserType.Seller);
             Seller s2 = new Seller(0002,"moka","malak@gmail","word",UserType.Seller);
             ArrayList<Object> sellerlist = new ArrayList<>();
             sellerlist.add(s1);
             sellerlist.add(s2);
-            sellerdatabase.insert(sellerlist);
-            sellerdatabase.close_write();
+            //sellerdatabase.insert(sellerlist);
+            //sellerdatabase.close_write();
             sellerdatabase.displayContent();
 
             String customerpath = "customer.dat";
             Database customerdatabase = new Database(customerpath);
-            customerdatabase.start_write();
+           // customerdatabase.start_write();
             Customer c1 = new Customer(0001,"amina","maadi","abd@miu","01111111","1234",UserType.Customer);
             Customer c2 = new Customer(0001,"amin","nowhere","abd@miu","01111111","5678",UserType.Customer);
+            Customer c3 = new Customer();
+            int id = c3.GenerateRandomID();
+            c3 = new Customer(id,"layla","orabi","layla@gmail.com","0110876688","12345678",UserType.Customer);
+            Customer c4 = new Customer();
+            int id2 = c4.GenerateRandomID();
+            c4 = new Customer(id2,"nour","sherok","nour@hotmail.com","0123875999","0980",UserType.Customer);
+            Customer c5 = new Customer();
+            int id3 = c5.GenerateRandomID();
+            c5 = new Customer(id3,"maryam","madinty","maryam12@gmail.com","011647888","0000",UserType.Customer);
+            Customer c6 = new Customer();
+            int id6 = c6.GenerateRandomID();
+            c6 = new Customer(id6,"salma","sherok","salma@gmail.com","0100876688","1234",UserType.Customer);
+            Customer c7 = new Customer();
+            int id7 = c7.GenerateRandomID();
+            c7 = new Customer(id7,"marwan","tagamo3","marwan88@gmail.com","0129076688","m2m",UserType.Customer);
+            Customer c8 = new Customer();
+            int id8 = c8.GenerateRandomID();
+            c8 = new Customer(id8,"seif","obour","seifi@gmail.com","010006688","seif24",UserType.Customer);
+
+
             ArrayList<Object> customer =  new ArrayList<>();
             customer.add(c1);
             customer.add(c2);
-            customerdatabase.insert(customer);
-           customerdatabase.close_write();
+            customer.add(c3);
+            customer.add(c4);
+            customer.add(c5);
+            customer.add(c6);
+            customer.add(c7);
+            customer.add(c8);
+            //customerdatabase.insert(customer);
+           //customerdatabase.close_write();
            customerdatabase.displayContent();
 //
             System.out.println( "hello");

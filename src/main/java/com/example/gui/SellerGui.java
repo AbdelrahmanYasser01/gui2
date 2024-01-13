@@ -63,29 +63,34 @@ public class SellerGui extends Application {
 
         HBox addSeller = new HBox(add, addfield);
         addSeller.setAlignment(Pos.CENTER);
-         //sellermail(text, textfield), password (text, textfield)
+
 
         Text addMail = new Text("ADD SELLER MAIL");
         TextField mailField = new TextField("mail");
         Button btn2 = new Button("ADD");
-
-
+        HBox addSeller2 = new HBox(addMail, mailField);
+        addMail.setStyle("-fx-font:normal  20px 'IMPACT' ");
+        addMail.setFill(Color.WHITE);
+        addSeller2.setAlignment(Pos.CENTER);
         mailField.setOpacity(0.2);
 
         Text addPass = new Text("ADD SELLER PASSWORD");
-        TextField passField = new TextField("mail");
+        TextField passField = new TextField("password");
         Button btn3 = new Button("ADD");
-        mailField.setOpacity(0.2);
-
+        passField.setOpacity(0.2);
+        HBox addSeller3 = new HBox(addPass, passField);
+        addPass.setStyle("-fx-font:normal  20px 'IMPACT' ");
+        addPass.setFill(Color.WHITE);
+        addSeller3.setAlignment(Pos.CENTER);
         addMail.setStyle("-fx-font:normal  20px 'IMPACT' ");
-        addMail.setFill(Color.WHITE);
 
-        HBox addpart2 = new HBox(addMail, mailField);
-        addpart2.setAlignment(Pos.CENTER);
 
-        VBox addseller = new VBox(15, addSeller, addpart2 , btn2);
-        addseller.setAlignment(Pos.CENTER);
-        addPane.getChildren().addAll(addBackground, addSeller);
+
+
+
+        VBox addseller4 = new VBox(15, addSeller,addSeller2,addSeller3 ,btn2);
+        addseller4.setAlignment(Pos.CENTER);
+        addPane.getChildren().addAll(addBackground, addseller4);
 
 
         StackPane removePane = new StackPane();
