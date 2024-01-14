@@ -101,8 +101,22 @@ public class SignUp extends Application {
         background.setArcWidth(20);
         background.setArcHeight(20);
 
+        HelloApplication h = new HelloApplication();
+        Button prevbtn = new Button("previous page");
+        prevbtn.setAlignment(Pos.BOTTOM_LEFT);
+        prevbtn.setOnAction(e->{
+            try {
+                Stage stage = new Stage();
+                h.start(stage);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        StackPane.setAlignment(prevbtn, Pos.BOTTOM_RIGHT);
+
         StackPane layout = new StackPane();
-        layout.getChildren().addAll(imageView, background, vbox3);
+        layout.getChildren().addAll(imageView, background, vbox3 , prevbtn);
         vbox3.setAlignment(Pos.CENTER);
 
         scene1 = new Scene(layout, 800, 500);

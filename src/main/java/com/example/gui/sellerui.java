@@ -239,6 +239,7 @@ public class sellerui extends Application {
         HBox back = new HBox(10,lp,right);
         StackPane pane = new StackPane();
         pane.getChildren().addAll(imageView,back);
+        primaryStage.setTitle("seller menu");
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         primaryStage.show();

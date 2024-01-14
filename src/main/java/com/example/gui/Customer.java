@@ -113,7 +113,6 @@ public class Customer extends User implements Serializable{
     void CreateCart(Product product,ArrayList<Product> Cart) {
         Cart.add(product);
     }
-
     ArrayList<Order> Checkout(ArrayList<Product> Cart , String Quantity , String Amount ,int cid ,String name,String email , String Location , String phone ,Date date ){
         ArrayList<Order> order = new ArrayList<>();
         int id = GenerateRandomID();
@@ -128,6 +127,7 @@ public class Customer extends User implements Serializable{
     }
     //
     void addToCart(Product product,ArrayList<Product> Cart) {
+
         Cart.add(product);
     }
 

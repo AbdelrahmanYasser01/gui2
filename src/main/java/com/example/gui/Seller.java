@@ -28,8 +28,11 @@ public class Seller extends User implements Serializable {
         this.password = password;
     }
 
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
+    }
 
-   void Addproduct(ArrayList<Product> products,Product product){
+    void Addproduct(ArrayList<Product> products, Product product){
         products.add(product);
    }
     void removeProduct(ArrayList<Product> products,Product product) {
@@ -122,11 +125,7 @@ public class Seller extends User implements Serializable {
         return this.getid() + "," + this.sellerName + "," + this.email + "," + this.password;
     }
 
-    public static int generateRandomID() {
-        int min = 1000;
-        int max = 9999;
-        return (int) (Math.random() * (max - min + 1) + min);
-    }
+
     public void launchgui(){
         SellerGui.launch(SellerGui.class);
     }

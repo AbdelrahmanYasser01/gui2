@@ -49,193 +49,99 @@ public class Admin extends User implements Serializable {
 
 
 
-    //_______________________________________________________________________________
-    //_________________________________adding user and products______________________________________________
-    //_______________________________________________________________________________
-    public User addUser(){
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Please enter user id");
-        int userID = scanner.nextInt();
+   //adding user and products
 
-        System.out.println("Please enter user password");
-        String userPass = scanner.next();
-
-        //return new User(userID, userPass, userType);
-
-        return null;
+    void Addproduct(ArrayList<Product> products,Product product){
+        products.add(product);
     }
-
-
-    //________________________________________________________________________________
-    //________________________remove user and product_________________________________
-    //________________________________________________________________________________
-
-    public void removeUser(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please Enter the ID of the user to remove:");
-        int userId = scanner.nextInt();
-
-
-        for (User User : users) {
-            if (User.getid() == userId) {
-                users.remove(User);
-                break;
-            }
-            System.out.println("Thank You!! com.example.gui.Product removed successfully.");
-        }
-        System.out.println("Sorry! com.example.gui.User not found.");
-
+    void removeProduct(ArrayList<Product> products,Product product) {
+        products.remove(product);
     }
-
-    public void removeProduct() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Please Enter the ID of the product to remove:");
-        int productId = scanner.nextInt();
-
-        boolean removed = false;
-        for (Product product : products) {
-            if (product.getId() == productId) {
-                products.remove(product);
-                removed = true;
-                break;
-            }
-        }
-
-        if (removed) {
-            System.out.println("Thank You!! com.example.gui.Product removed successfully.");
-        } else {
-            System.out.println("Sorry! com.example.gui.Product not found.");
-        }
-    }
-
-    //____________________________________________________________________________
-    //________________________editting user and products__________________________
-    //____________________________________________________________________________
-
-    public void editUser(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please Enter the ID of the product to edit:");
-        int UserId = scanner.nextInt();
-
-        boolean foundUser = false;
-
-        for(User user : users){
-
-            if(user.getid() == UserId){
-                foundUser = true;
-
-                System.out.println("Please Enter new ID (current ID is " + user.getid() + ") :");
-                int newID = scanner.nextInt();
-                user.setUserId(newID);
-
-                System.out.println("Please Enter new password (current password is " + user.getPassword() + ") :");
-                String newpass = scanner.next();
-                user.setPassword(newpass);
-
-                break;
-            }
-
-        }
-        if(foundUser == true)
-            System.out.println("com.example.gui.User succesfully Edited!");
-        else
-            System.out.println("com.example.gui.User not found!");
-    }
-
-
-
-
-
-    public void listUser(){
-        if (users.isEmpty()) {
-            System.out.println("Sorry! No users found .");
-            return;
-        }
-        System.out.println("List of Current Users:");
-        for (User user : users) {
-            System.out.println("        ");
-            System.out.println("ID: " + user.getid());
-            System.out.println("Password: " + user.getPassword());
-            System.out.println("----------------------");
-        }
-    }
-
-
-
-    public void listProducts() {
-        if (products.isEmpty()) {
-            System.out.println("Sorry! No products found .");
-            return;
-        }
-
-        System.out.println("List of Current Products:");
-        for (Product product : products) {
-            System.out.println("        ");
-            System.out.println("ID: " + product.getId());
-            System.out.println("Name: " + product.getName());
-            System.out.println("Price: " + product.getPrice());
-            System.out.println("Supplier: " + product.getSeller());
-            System.out.println("Quantity: " + product.getQuantity());
-            System.out.println("----------------------");
-        }
-    }
-
-    //____________________________________________________________________________
-    //___________________________Searching Users and products_____________________
-    //____________________________________________________________________________
-
-    public void searchUser(){
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Please Enter the search by ID:");
-        int query1 = scanner.nextInt();
-
-        List<User> searchResults1 = new ArrayList<>();
-        for (User user : users) {
-            if (user.getid() == query1) {
-                searchResults1.add(user);
-            }
-        }
-        if (searchResults1.isEmpty()) {
-            System.out.println("Sorry! No users found matching the searched ID.");
-        } else {
-            System.out.println("Search results:");
-            for (User user : searchResults1) {
-                System.out.println("ID: " + user.getid());
-                System.out.println("Password: " + user.getPassword());
-                System.out.println("----------------------");
+    public void editProduct(ArrayList<Product> products , String prodname,int id ,String newProductName, double newPrice, String newSeller, int newQuantity) {
+        Product product = new Product();
+        product = new Product(id,newProductName,newPrice,newSeller,newQuantity);
+        for (Product item : products) {
+            if (item.getName().toLowerCase().contains(prodname.toLowerCase())) {
+                products.remove(item);
+                products.add(product);
             }
         }
     }
-
-    public void searchProducts() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Please Enter the search by Name:");
-        String query = scanner.next();
-
-        List<Product> searchResults = new ArrayList<>();
-        for (Product product : products) {
-            if (product.getName().contains(query)) {
-                searchResults.add(product);
+    ArrayList<Product> searchproducts(String name , ArrayList<Product> products){
+        ArrayList<Product> product = new ArrayList<>();
+        if(name.isEmpty()){
+            System.out.print(products);
+        }else{
+            for (Product item : products) {
+                if (item.getName().toLowerCase().contains(name.toLowerCase())) {
+                    System.out.println(item);
+                    product.add(item);
+                }
             }
         }
-
-        if (searchResults.isEmpty()) {
-            System.out.println("Sorry! No products found matching the searched name.");
-        } else {
-            System.out.println("Search results:");
-            for (Product product : searchResults) {
-                System.out.println("ID: " + product.getId());
-                System.out.println("Name: " + product.getName());
-                System.out.println("Price: " + product.getPrice());
-                System.out.println("Supplier: " + product.getSeller());
-                System.out.println("Quantity: " + product.getQuantity());
-                System.out.println("----------------------");
+        return product;
+    }
+    void Addcustomer(ArrayList<Customer> customers,Customer customer){
+        customers.add(customer);
+    }
+    void removecustomer(ArrayList<Customer> customers,Customer customer) {
+        customers.remove(customer);
+    }
+    public void editCust(ArrayList<Customer> customers , String name,int id ,String newname,String newlocation, String newemail, String newphone,String newpass) {
+        Customer cust = new Customer();
+        cust = new Customer(id,newname,newlocation,newemail,newphone,newpass,UserType.Customer);
+        for (Customer item : customers) {
+            if (item.getCustomerName().toLowerCase().contains(name.toLowerCase())) {
+                customers.remove(item);
+                customers.add(cust);
             }
         }
+    }
+    ArrayList<Customer> searchcustomers(String name , ArrayList<Customer> customers){
+        ArrayList<Customer> cust = new ArrayList<>();
+        if(name.isEmpty()){
+            System.out.print(customers);
+        }else{
+            for (Customer item : customers) {
+                if (item.getCustomerName().toLowerCase().contains(name.toLowerCase())) {
+                    System.out.println(item);
+                    cust.add(item);
+                }
+            }
+        }
+        return cust;
+    }
+    void Addseller(ArrayList<Seller> sellers,Seller seller){
+        sellers.add(seller);
+    }
+    void removeseller(ArrayList<Seller> sellers,Seller seller) {
+        sellers.remove(seller);
+    }
+
+    public void editseller(ArrayList<Seller> sellers , String name,int id ,String newname, String newemail,String newpass) {
+        Seller sel = new Seller();
+        sel = new Seller(id,newname,newemail,newpass,UserType.Seller);
+        for (Seller item : sellers) {
+            if (item.getSellerName().toLowerCase().contains(name.toLowerCase())) {
+                sellers.remove(item);
+                sellers.add(sel);
+            }
+        }
+    }
+    ArrayList<Seller> searchsellers(String name , ArrayList<Seller> sellers){
+        ArrayList<Seller> sel = new ArrayList<>();
+        if(name.isEmpty()){
+            System.out.print(sellers);
+        }else{
+            for (Seller item : sellers) {
+                if (item.getSellerName().toLowerCase().contains(name.toLowerCase())) {
+                    System.out.println(item);
+                    sel.add(item);
+                }
+            }
+        }
+        return sel;
     }
 
     public void vieworders(){}

@@ -87,6 +87,7 @@ public class HelloApplication extends Application {
                         System.out.println("yes");
                         admin.start(stage);
                     } else {
+                        passwrong("wrong password",Alert.AlertType.ERROR);
                         System.out.println("wrong ");
                     }
                 }
@@ -102,6 +103,8 @@ public class HelloApplication extends Application {
                             throw new RuntimeException(ex);
                         }
 
+                    }else{
+                        passwrong("wrong password",Alert.AlertType.ERROR);
                     }
                 }
             }
@@ -116,6 +119,8 @@ public class HelloApplication extends Application {
                             throw new RuntimeException(ex);
                         }
 
+                    }else{
+                        passwrong("wrong password",Alert.AlertType.ERROR);
                     }
                 }
             }
@@ -268,6 +273,15 @@ public class HelloApplication extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static void passwrong(String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait().ifPresent(result -> {
+
+            alert.close();
+        });;
     }
 
 }
