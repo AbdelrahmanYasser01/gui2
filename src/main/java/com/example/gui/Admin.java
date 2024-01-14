@@ -47,18 +47,7 @@ public class Admin extends User implements Serializable {
         this.adminName = adminName;
     }
 
-    public String getEmail(){
-        return email;
-    }
-    public String getadminName(){
-        return adminName;
-    }
-    public Date getStartDate(){
-        return StartDate;
-    }
-    public Date getendDate(){
-        return EndDate;
-    }
+
 
     //_______________________________________________________________________________
     //_________________________________adding user and products______________________________________________

@@ -54,7 +54,41 @@ public class Order implements Serializable {
         this.name = name;
     }
 
+    public int GetCustomerId() {
+        return customerId;
+    }
 
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return Products;
+    }
+
+    public void setProducts(ArrayList<Product> products) {
+        Products = products;
+    }
+
+    public String getTotalamount() {
+        return Totalamount;
+    }
+
+    public void setTotalamount(String totalamount) {
+        Totalamount = totalamount;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
 
     private ArrayList<Order> readOrdersFromFile() {
         ArrayList<Order> orders = new ArrayList<>();
@@ -88,5 +122,11 @@ public class Order implements Serializable {
                 ", orderDate=" + orderDate +
                 ", products=" + Products +
                 '}';
+    }
+    public static int GenerateRandomID() {
+
+        int min = 1000;
+        int max = 9999;
+        return (int) (Math.random() * (max - min + 1) + min);
     }
 }

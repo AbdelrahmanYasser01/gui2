@@ -69,7 +69,7 @@ public class AdminGui extends Application {
         layout.setPadding(new Insets(10,10,10,10));
         layout.setMaxWidth(Region.USE_PREF_SIZE);
         layout.setMaxHeight(Region.USE_PREF_SIZE);*/
-        BorderPane root = new BorderPane();
+
         HelloApplication h = new HelloApplication();
         Button prevbtn = new Button("previous page");
         prevbtn.setAlignment(Pos.BOTTOM_LEFT);
@@ -80,11 +80,10 @@ public class AdminGui extends Application {
                 throw new RuntimeException(ex);
             }
         });
-        BorderPane.setAlignment(prevbtn, Pos.BOTTOM_LEFT);
-        root.setBottom(prevbtn);
 
+        StackPane.setAlignment(prevbtn, Pos.BOTTOM_RIGHT);
         StackPane layout = new StackPane();
-        layout.getChildren().addAll(imageView,adminbackground,adminmenu,root);
+        layout.getChildren().addAll(imageView,adminbackground,adminmenu,prevbtn);
         Scene scene = new Scene(layout);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Admin menu");

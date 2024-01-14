@@ -77,12 +77,14 @@ public class ProductsGUI extends Application implements Serializable  {
                 addsname.setStyle("-fx-font:normal  20px 'IMPACT' ");
                 addsname.setFill(Color.WHITE);
                 HBox addpart3 = new HBox(addsname, addsfield);
+                addpart3.setAlignment(Pos.CENTER);
                 Text addQuantity = new Text("ADD PRODUCT QUANTITY");
                 TextField addqfield = new TextField("quantity");
                 addqfield.setOpacity(0.2);
                 addQuantity.setStyle("-fx-font:normal  20px 'IMPACT' ");
                 addQuantity.setFill(Color.WHITE);
                 HBox addpart4 = new HBox(addQuantity, addqfield);
+                addpart4.setAlignment(Pos.CENTER);
                 VBox addproduct = new VBox(15, addpart, addpart2 ,addpart3,addpart4, btn2);
                 addproduct.setAlignment(Pos.CENTER);
                 addPane.getChildren().addAll(addBackground, addproduct);
@@ -194,7 +196,15 @@ public class ProductsGUI extends Application implements Serializable  {
                         db.displayContent();
 
                 });
-                HBox back = new HBox(10, listview, right);
+                AdminGui g = new AdminGui();
+                Button prevbtn = new Button("previous page");
+                prevbtn.setAlignment(Pos.BOTTOM_LEFT);
+                prevbtn.setOnAction(e->{
+                        g.start(prodstage);
+                });
+                VBox v = new VBox(listview,prevbtn);
+                v.setAlignment(Pos.CENTER);
+                HBox back = new HBox(10, v, right);
                 pane.getChildren().addAll(imageView, back);
                 //pane.getChildren().addAll(listview);
 

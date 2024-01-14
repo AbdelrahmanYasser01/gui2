@@ -206,8 +206,15 @@ public class SellerGui extends Application {
             db.displayContent();
 
         });
-
-        HBox back = new HBox(10, listView, right);
+        AdminGui g = new AdminGui();
+        Button prevbtn = new Button("previous page");
+        prevbtn.setAlignment(Pos.BOTTOM_LEFT);
+        prevbtn.setOnAction(e->{
+            g.start(primaryStage);
+        });
+        VBox v = new VBox(listView,prevbtn);
+        v.setAlignment(Pos.CENTER);
+        HBox back = new HBox(10, v, right);
         pane.getChildren().addAll(imageView, back);
 
 

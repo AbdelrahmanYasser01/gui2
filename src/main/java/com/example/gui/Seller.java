@@ -29,90 +29,80 @@ public class Seller extends User implements Serializable {
     }
 
 
-    public int getSellerid() {
-        return sellerid;
+   void Addproduct(ArrayList<Product> products,Product product){
+        products.add(product);
+   }
+    void removeProduct(ArrayList<Product> products,Product product) {
+        products.remove(product);
+    }
+    public void editProduct(ArrayList<Product> products , String prodname,int id ,String newProductName, double newPrice, String newSeller, int newQuantity) {
+        Product product = new Product();
+        product = new Product(id,newProductName,newPrice,newSeller,newQuantity);
+        for (Product item : products) {
+            if (item.getName().toLowerCase().contains(prodname.toLowerCase())) {
+                products.remove(item);
+                products.add(product);
+            }
+        }
+    }
+    ArrayList<Product> searchproducts(String name , ArrayList<Product> products){
+        ArrayList<Product> product = new ArrayList<>();
+        if(name.isEmpty()){
+            System.out.print(products);
+        }else{
+            for (Product item : products) {
+                if (item.getName().toLowerCase().contains(name.toLowerCase())) {
+                    System.out.println(item);
+                    product.add(item);
+                }
+            }
+        }
+        return product;
+    }
+    public double AverageRevenueOfOrders(ArrayList<Order> orders){
+        double total=0.0;
+        int i=0;
+        for(Order order : orders){
+            double total1 = Double.parseDouble(order.getTotalamount());
+            total+=total1;
+            i++;
+        }
+        if(i==0)
+            return 0;
+        return total/i;
+    }
+    public double CalculateRevenue(ArrayList<Order> orders){
+        double total=0.0;
+        for(Order order: orders){
+            double total1 = Double.parseDouble(order.getTotalamount());
+            total+=total1;
+        }
+        return total;
+    }
+    public void ViewOrderDetails(ArrayList<Order> orders){
+        System.out.println(sellerName+"'s Order Details:");
+        for(Order order: orders){
+            System.out.println("Order ID: "+order.getOrderId());
+            System.out.println("Customer ID: "+order.getCustomerId());
+            System.out.println("Total Amount: "+order.getTotalamount());
+            System.out.println("Products:");
+            for (Product product : order.getProducts()) {
+                System.out.println("- " + product.getName() + " $" + product.getPrice());
+            }
+            System.out.println("------------------");
+        }
+
     }
 
-    public void setSellerid(int sellerid) {
-        this.sellerid = sellerid;
-    }
+
 
     public String getSellerName() {
         return sellerName;
     }
 
-    public void setSellerName(String sellerName) {
-        this.sellerName = sellerName;
-    }
-
-    public int getSellerId() {
-        return sellerid;
-    }
-
-    public void setSellerId(int sellerid) {
-        this.sellerid = sellerid;
-    }
 
 
-    public String getpassword() {
-        return password;
-    }
 
-
-    public void setpassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getStartDate() {
-        return StartDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        StartDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return EndDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        EndDate = endDate;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    void addProduct(Product product) {
-        products.add(product);
-    }
-    void removeProduct(Product product) {
-        products.remove(product);
-    }
-    List<Product> ViewProducts(){
-        return products;
-    }
-    ArrayList<String> viewOrders() {
-        return orders;
-    }
-    void AverageRevenueOfOrders(){
-
-    }
-    void CalculateRevenue(){
-
-    }
     public static Seller parse(String data) {
         String[] parts = data.split(",");
         if (parts.length < 4) {

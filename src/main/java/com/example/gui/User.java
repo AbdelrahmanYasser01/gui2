@@ -6,12 +6,12 @@ import java.util.Scanner;
 //todo:abstract , binary file
 
     public abstract class User implements Serializable {
+        private static final long serialVersionUID = 1841367976866765392L;
+
         public int userId;
         public String password;
         public
         UserType userType ;
-        Database database;
-        Scanner scanner;
 
         //constructor
 

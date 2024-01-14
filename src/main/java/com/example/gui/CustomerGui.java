@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -36,10 +37,10 @@ public class CustomerGui extends Application  {
     public void start(Stage primaryStage) throws Exception {
 
 
-        primaryStage.setTitle("Tab with Image Example");
+        primaryStage.setTitle("Customer menu");
 
         ObservableList<Product> products = FXCollections.observableArrayList();
-        // Create a TabPane
+
         TabPane tabPane = new TabPane();
 
 
@@ -70,7 +71,7 @@ public class CustomerGui extends Application  {
         image3tab.setContent(createdisplaydetails());
 
 
-        BorderPane root = new BorderPane();
+
         HelloApplication h = new HelloApplication();
         Button prevbtn = new Button("previous page");
         prevbtn.setAlignment(Pos.BOTTOM_LEFT);
@@ -81,8 +82,8 @@ public class CustomerGui extends Application  {
                 throw new RuntimeException(ex);
             }
         });
-        BorderPane.setAlignment(prevbtn, javafx.geometry.Pos.BOTTOM_RIGHT);
-        root.setBottom(prevbtn);
+
+        StackPane.setAlignment(prevbtn, Pos.BOTTOM_RIGHT);
         tabPane.getTabs().addAll(imageTab,image2tab,image3tab);
         tabPane.setStyle("-fx-background-color: transparent;");
         Image imagetrial = new Image("https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/tile/Apple-iPhone-15-Pro-lineup-hero-230912.jpg.og.jpg?202311010232"); // Assuming the image file is in the project directory
@@ -92,7 +93,7 @@ public class CustomerGui extends Application  {
         imageView.setFitWidth(1200);
         imageView.setFitHeight(630);
         StackPane s = new StackPane();
-        s.getChildren().addAll(imageView,tabPane,root);
+        s.getChildren().addAll(imageView,tabPane,prevbtn);
         Scene scene = new Scene(s);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -168,7 +169,7 @@ public class CustomerGui extends Application  {
         searchbtn.setOnAction(event -> {
             String newValue = searchField.getText().trim();
             if (newValue.isEmpty()) {
-                // If the search field is empty, display the original list
+                // If the search field is empty, display  list
                 listview.setItems(p);
             } else {
                 ObservableList<Product> filteredItems = filterItems(p, newValue);
@@ -186,14 +187,14 @@ public class CustomerGui extends Application  {
 
         });
         addprod.setOnAction(event -> {
-            // Add the product to the shared data model
+
             // productType.getText();
             // Product newProduct = new Product(211,"Iphone",1900);
             products.add(Product.parse(productType.getText()));
         });
 
         Addingprod.getChildren().addAll(listview,allmanaging);
-        // Add UI components for adding products (e.g., TextFields, Buttons, etc.)
+
         Rectangle background = new Rectangle(800, 800, Color.rgb(0, 0, 0, 0.2));
 
         Productcon.getChildren().addAll(Addingprod);
@@ -208,10 +209,9 @@ public class CustomerGui extends Application  {
         Label Totprice = new Label();
         Label ShopCart = new Label("Your Shopping Cart :");
         ShopCart.setFont(new Font(20.0));
-        Label removeitem = new Label(" tab to remove");
         Button checkout = new Button("Proceed to checkout");
 
-        // Add UI components for displaying products (e.g., ListView, TableView, etc.)
+
         ListView<Product> listView = new ListView<>(products);
         displaycartdetails.add(ShopCart,0,0);
         displaycartdetails.add(listView,0,1);
@@ -219,8 +219,7 @@ public class CustomerGui extends Application  {
 
         displaycartdetails.add(Totprice,0,3);
         displaycartdetails.add(cancelCart,2,3);
-        displaycartdetails.add(removeitem,3,0);
-        displaycartdetails.add(checkout,4,3);
+        displaycartdetails.add(checkout,3,3);
         products.addListener((ListChangeListener<Product>) change -> {
             Totprice.setText(String.format("Total Amount: %.2f EGP", calculateTotalAmount(products)));
            price.setText( String.format("Quantity: %d", calculatequantity(products)));
@@ -240,7 +239,7 @@ public class CustomerGui extends Application  {
 
             alert.showAndWait().ifPresent(result -> {
                 if (result == ButtonType.OK) {
-                    // User clicked OK, remove the selected product
+
                     if (selectedItem != null) {
                         products.remove(selectedItem);
                     }
@@ -269,6 +268,8 @@ public class CustomerGui extends Application  {
         DatePicker Startdate = new DatePicker();
         DatePicker Enddate = new DatePicker();
         Button btn = new Button("show specific order");
+        Label countlbl = new Label("Num of orders:");
+        Text counttxt = new Text();
         ArrayList<Order> al = new ArrayList<>();
         fillarraylist(al);
         ObservableList<Order> p = FXCollections.observableArrayList(al);
@@ -277,9 +278,10 @@ public class CustomerGui extends Application  {
 
         orders.setPrefSize(10,100);
         StackPane pane = new StackPane();
-        HBox b = new HBox(user,user2,bt);
-        HBox c = new HBox(Startdate,Enddate,btn);
-        VBox n = new VBox(b,c);
+        HBox b = new HBox(10,user,user2,bt);
+        HBox c = new HBox(10,Startdate,Enddate,btn);
+        HBox x = new HBox(10,countlbl,counttxt);
+        VBox n = new VBox(10,b,c,x);
 
         bt.setOnAction(event -> {
             String newValue  = user2.getText().trim();
@@ -303,21 +305,12 @@ public class CustomerGui extends Application  {
             LocalDate dateE = Enddate.getValue();
             Date convertend= convertToDate(dateE);
             ObservableList<Order> l = searchDateOrders(p,newvalue,convertstart,convertend);
+            int countorders = countDateOrders(p,newvalue,convertstart,convertend);
+            String counter = String.valueOf(countorders);
+            counttxt.setText(counter);
             orders.setItems(l);
         });
-//        orders.setCellFactory(param -> new ListCell<Order>() {
-//            @Override
-//            protected void updateItem(Order item, boolean empty) {
-//                super.updateItem(item, empty);
-//                if (empty || item == null || item.getName() == null) {
-//                    setText(null);
-//                } else {
-//                    setText(item.getName()); // Set the text to be displayed in the cell
-//                }
-//            }
-//        });
-        //Todo:count num of orders
-        VBox t = new VBox(n,orders);
+        VBox t = new VBox(10,n,orders);
         pane.getChildren().addAll(t);
         return pane;
     }
@@ -342,6 +335,20 @@ public class CustomerGui extends Application  {
 
         return filteredOrders;
     }
+    public static int countDateOrders(ObservableList<Order> allOrders, String username, Date startDate, Date endDate) {
+        int count = 0;
+
+        for (Order order : allOrders) {
+            if (order.getName().equalsIgnoreCase(username)) {
+                Date orderDate = order.getOrderDate();
+                if (orderDate.after(startDate) && orderDate.before(endDate)) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
     public void fillarraylist(ArrayList<Order> list) {
         String fileName = "Order.dat";
         File file = new File(fileName);
@@ -354,7 +361,7 @@ public class CustomerGui extends Application  {
                 try {
                     list.addAll((ArrayList<Order>) ois.readObject());
                 } catch (EOFException e) {
-                    break; // End of file reached, exit the loop
+                    break;
                 }
             }
         } catch (Exception e) {
@@ -384,15 +391,6 @@ public class CustomerGui extends Application  {
 
         return filteredList;
     }
-    private ObservableList<Order> filterOrdersByDate(ObservableList<Order> orders, String customerName, Date startDate, Date endDate) {
-
-        return orders.filtered(order ->
-
-                order.getName().equalsIgnoreCase(customerName) &&
-                        order.getOrderDate().after(startDate) &&
-                        order.getOrderDate().before(endDate)
-        );
-    }
     private void noproductFound(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
@@ -403,15 +401,15 @@ public class CustomerGui extends Application  {
     public double calculateTotalAmount(ObservableList<Product> originalList) {
         double totalAmount = 0;
 
-        // Iterate through the list and sum up the prices
+
         for (Product product : originalList) {
             totalAmount += product.getPrice();
         }
-        //String formattedTotalAmount = String.format("Total Amount: %.2f EGP", totalAmount);
+
         return totalAmount;
     }
     public int calculatequantity(ObservableList<Product> originallist){
-        int countquantity = originallist.size(); // Use the size() method to get the number of elements in the list
+        int countquantity = originallist.size();
        // String counterstring = String.format("Quantity: %d", countquantity);
         return countquantity;
     }
@@ -422,7 +420,7 @@ public class CustomerGui extends Application  {
 
 
         Stage checkoutStage = new Stage();
-        checkoutStage.initModality(Modality.APPLICATION_MODAL); // Block events to other windows
+        checkoutStage.initModality(Modality.APPLICATION_MODAL); // stop any events from ay window
         checkoutStage.initStyle(StageStyle.UTILITY);
 
 
@@ -452,8 +450,10 @@ public class CustomerGui extends Application  {
            ArrayList<Product> shoppingcart = new ArrayList<>(products);
            LocalDate chosendate =orderdate.getValue();
            Date selecteddate = Date.from(chosendate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-           Order order = new Order(1111,0111,name.getText(),Quantity,amount,location.getText(),phone.getText(),email.getText(),selecteddate,shoppingcart);
-           orderlists.add(order);
+           Order order4 = new Order();
+           int ordid = order4.GenerateRandomID();
+            order4 = new Order(ordid,0111,name.getText(),Quantity,amount,location.getText(),phone.getText(),email.getText(),selecteddate,shoppingcart);
+           orderlists.add(order4);
            try {
                orderdb.start_write();
                orderdb.insert(orderlists);
@@ -483,7 +483,7 @@ public class CustomerGui extends Application  {
                 try {
                     list.addAll((ArrayList<Product>) ois.readObject());
                 } catch (EOFException e) {
-                    break; // End of file reached, exit the loop
+                    break;
                 }
             }
         } catch (Exception e) {

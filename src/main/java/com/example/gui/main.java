@@ -8,6 +8,7 @@ import java.util.Scanner ;
 import static javafx.application.Application.launch;
 
 public class main {
+    private static final long serialVersionUID = 1841367976866765392L;
 
   public static void main(String[] args) throws IOException {
 //        Stage main = new Stage();
@@ -16,7 +17,7 @@ public class main {
         try {
             String productFilepath = "products.dat";
             Database productdatabase = new Database(productFilepath);
-            productdatabase.start_write();
+            //productdatabase.start_write();
 
             Product p1 = new Product(7890,"iphone 15 Pro",100000.0,"malak",5);
             Product p2 = new Product(1324,"airpods 2",10000.0,"malak",10);
@@ -40,20 +41,26 @@ public class main {
             prodlist.add(p8);
             prodlist.add(p9);
             prodlist.add(p10);
-            productdatabase.insert(prodlist);
-            productdatabase.close_write();
+            //productdatabase.insert(prodlist);
+            //productdatabase.close_write();
             productdatabase.displayContent();
 
             String adminsfilepath = "admin.dat";
             Database admindatabase = new Database(adminsfilepath);
             //admindatabase.start_write();
-            Admin a1 = new Admin(0001,"layla","layla@gmail.com","meshadra",UserType.Admin);
-            Admin a2 = new Admin(0002,"nour","nour@gmail.com","aloyalayla",UserType.Admin);
-            Admin a3 = new Admin(0003,"noureltanya","secondnour@gmail.com","gebtakhry",UserType.Admin);
+            Admin a1 = new Admin(9867,"layla","layla@gmail.com","meshadra",UserType.Admin);
+            Admin a2 = new Admin(1222,"nour","nour@gmail.com","aloyalayla",UserType.Admin);
+            Admin a3 = new Admin(1212,"maya","secondn@gmail.com","mayasr",UserType.Admin);
+            Admin a4 = new Admin(2444,"osama","osamaa@gmail.com","1234",UserType.Admin);
+            Admin a5 = new Admin(5646,"kareem","krem@gmail.com","k1233",UserType.Admin);
+            Admin a6 = new Admin(3535,"omar","or@gmail.com","2005",UserType.Admin);
             ArrayList<Object> admlist = new ArrayList<>();
             admlist.add(a1);
             admlist.add(a2);
             admlist.add(a3);
+            admlist.add(a4);
+            admlist.add(a5);
+            admlist.add(a6);
             //admindatabase.insert(admlist);
             //admindatabase.close_write();
             admindatabase.displayContent();
@@ -63,9 +70,17 @@ public class main {
             //sellerdatabase.start_write();
             Seller s1 = new Seller(0001,"malak","malak@gmail","password",UserType.Seller);
             Seller s2 = new Seller(0002,"abdulrahman","abdulrahman@gmail","word",UserType.Seller);
+            Seller s3 = new Seller(0001,"adham","adham@gmail","1234",UserType.Seller);
+            Seller s4 = new Seller(0002,"mai","mai@gmail","mai76",UserType.Seller);
+            Seller s5 = new Seller(0001,"tarek","tarek@gmail","tarek1997",UserType.Seller);
+            Seller s6 = new Seller(0002,"reem","reem@gmail","7890",UserType.Seller);
             ArrayList<Object> sellerlist = new ArrayList<>();
             sellerlist.add(s1);
             sellerlist.add(s2);
+            sellerlist.add(s3);
+            sellerlist.add(s4);
+            sellerlist.add(s5);
+            sellerlist.add(s6);
             //sellerdatabase.insert(sellerlist);
             //sellerdatabase.close_write();
             sellerdatabase.displayContent();

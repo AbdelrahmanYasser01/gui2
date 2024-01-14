@@ -12,7 +12,6 @@ public class Product implements Serializable {
     private String productName;
     private double price;
     private int quantity;
-
     private String seller;
 
 
@@ -65,7 +64,7 @@ public class Product implements Serializable {
 
 
 
-    //Converts a string line coming from the txt file into an object of product.
+
     public static Product parse(String data) {
         String[] parts = data.split(",");
 
@@ -93,12 +92,12 @@ public class Product implements Serializable {
     }
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
-        // Add custom serialization logic if needed
+
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        // Add custom deserialization logic if needed
+
     }
     public static int GenerateRandomID() {
 

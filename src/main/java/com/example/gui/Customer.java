@@ -2,6 +2,7 @@ package com.example.gui;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,12 +17,9 @@ public class Customer extends User implements Serializable{
     String Email;
     String Phonenum;
     int Id;
-    int CartId;
-    ArrayList<Product> Products = new ArrayList<>();
-    Double Totalamount;
     int numoforders;
     String password;
-    //ArrayList<String> orders;
+
     Order[] order = new Order[numoforders];
     private ArrayList<Product> Cart = new ArrayList<>();
 
@@ -60,149 +58,85 @@ public class Customer extends User implements Serializable{
         return CustomerName;
     }
 
-    public void setCustomerName(String customerName) {
-        CustomerName = customerName;
+
+    ArrayList<Product> searchproducts(String name , ArrayList<Product> products){
+       ArrayList<Product> product = new ArrayList<>();
+        if(name.isEmpty()){
+            System.out.print(products);
+        }else{
+            for (Product item : products) {
+                if (item.getName().toLowerCase().contains(name.toLowerCase())) {
+                    product.add(item);
+                }
+            }
+        }
+        return product;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String email) {
-        Email = email;
-    }
-
-    public String getPhonenum() {
-        return Phonenum;
-    }
-
-    public void setPhonenum(String phonenum) {
-        Phonenum = phonenum;
-    }
-
-    public int getCartId() {
-        return CartId;
-    }
-
-    public void setCartId(int cartId) {
-        CartId = cartId;
-    }
-
-    public ArrayList<Product> getProducts() {
-        return Products;
-    }
-
-    public void setProducts(ArrayList<Product> products) {
-        Products = products;
-    }
-
-    public Double getTotalamount() {
-        return Totalamount;
-    }
-
-    public void setTotalamount(Double totalamount) {
-        Totalamount = totalamount;
-    }
-
-    public int getNumoforders() {
-        return numoforders;
-    }
-
-    public void setNumoforders(int numoforders) {
-        this.numoforders = numoforders;
-    }
-
-    public Order[] getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order[] order) {
-        this.order = order;
-    }
-
-    public ArrayList<Product> getCart() {
-        return Cart;
-    }
-
-    public void setCart(ArrayList<Product> cart) {
-        Cart = cart;
-    }
-
-    Order DetailedOrders(int CostId) {
+    Order DetailedOrders(int CostId,ArrayList<Order> order) {
         //search in list and print the orders
-        for (Order order : order) {
-            if (order.customerId == CostId) {
-                return order; // Found the order
+        for (Order order1 : order) {
+            if (order1.GetCustomerId() == CostId) {
+                return order1; // Found the order
             }
         }
         return null;
     }
-
-    // view a specific order
-    Order viewOrder(int ordId) {
-        for (Order ord : order) {
-            if (ord.orderId == ordId) {
-                return ord; // Found the order
+    // get cost name then search w name and between times provided
+    ArrayList<Order> specifiedDateOrder(Date Startdate , Date enddate , String name , ArrayList<Order> orders){
+        ArrayList<Order> specifiedorder = new ArrayList<>();
+        for (Order order : orders) {
+            if (order.getName().equalsIgnoreCase(name)) {
+                Date orderDate = order.getOrderDate();
+                if (orderDate.after(Startdate) && orderDate.before(enddate)) {
+                    specifiedorder.add(order);
+                }
             }
         }
-        /* view order */
-        return null;
+        return  specifiedorder;
+    }
+    int countSpecifiedDateOrders(Date startDate, Date endDate, String name, ArrayList<Order> orders) {
+        int count = 0;
+
+        for (Order order : orders) {
+            if (order.getName().equalsIgnoreCase(name)) {
+                Date orderDate = order.getOrderDate();
+                if (orderDate.after(startDate) && orderDate.before(endDate)) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
     }
 
-    void CreateCart() {
-        orders.add(String.valueOf(Cart));
-    }
-
-    void CancelCart() {
-        orders.remove(String.valueOf(Cart));
-    }
-    //
-    void addToCart(Product product) {
+    void CreateCart(Product product,ArrayList<Product> Cart) {
         Cart.add(product);
     }
 
-    void RemoveFromCart(Product product) {
+    ArrayList<Order> Checkout(ArrayList<Product> Cart , String Quantity , String Amount ,int cid ,String name,String email , String Location , String phone ,Date date ){
+        ArrayList<Order> order = new ArrayList<>();
+        int id = GenerateRandomID();
+
+        Order order1 = new Order(id,cid,name,Quantity,Amount,Location,phone,email,date,Cart);
+        order.add(order1);
+        return order;
+        // baaden append ala el binaryfile bel list deh
+    }
+    void CancelCart(ArrayList<Product> Cart) {
+        Cart.clear();
+    }
+    //
+    void addToCart(Product product,ArrayList<Product> Cart) {
+        Cart.add(product);
+    }
+
+    void RemoveFromCart(Product product,ArrayList<Product> Cart) {
         if(Cart.contains(product)){
             Cart.remove(product);
         }
-        else System.out.println("   !product is not in cart!   ");
+        else System.out.println("   product isnt in cart   ");
     }
-
-    public List<Product> searchProd(String searchField) {
-        List<Product> search = new ArrayList<>();
-        for (Product productData : Products) {
-            Product product = productData;
-            if (product != null && product.getName().toLowerCase().contains(searchField.toLowerCase())) {
-                search.add(product);
-            }
-        }
-        return search;
-    }
-    ArrayList<Product> ViewCart() {
-        return Cart; // not sure
-    }
-
-//    void MakePayment(Order order) {
-//        System.out.println("Total amount : " + Totalamount);
-//        System.out.println("Cash on delivery");
-//        System.out.println("Confirm order");
-//        Scanner s = new Scanner(System.in);
-//        String confirm = s.nextLine();
-//        if (confirm != "yes") {
-//            CancelCart();
-//        } else {
-//            order.PlaceOrder();
-//            System.out.println("order is confirmed");
-//        }
-//    }
 
 
     public static Customer parse(String data) {
